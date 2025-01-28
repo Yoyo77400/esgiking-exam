@@ -4,7 +4,7 @@ import { isValidObjectId, Model } from "mongoose";
 import { ProductSchema } from "./schema";
 import { Models } from "./mongoose.models";
 
-export type ICreateProduct = Omit<IProduct, "id" | "promotions">;
+export type ICreateProduct = Omit<IProduct, "_id" | "promotions" | "createdAt" | "updatedAt">;
 
 export class ProductService {
 

@@ -4,7 +4,7 @@ import { isValidObjectId, Model } from "mongoose";
 import { PromotionSchema } from "./schema";
 import { Models } from "./mongoose.models";
 
-export type ICreatePromotion = Omit<IPromotion, "id" | "conditions">;
+export type ICreatePromotion = Omit<IPromotion, "_id" | "conditions" | "createdAt" | "updatedAt">;
 
 export class PromotionService {
 

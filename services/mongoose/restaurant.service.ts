@@ -4,7 +4,7 @@ import { isValidObjectId, Model } from "mongoose";
 import { RestaurantSchema} from "./schema";
 import { Models } from "./mongoose.models";
 
-export type ICreateRestaurant = Omit<IRestaurant, "id" | "admin">;
+export type ICreateRestaurant = Omit<IRestaurant, "_id" | "admin" | "createdAt" | "updatedAt">;
 
 export class RestaurantService {
 
