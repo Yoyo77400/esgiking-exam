@@ -1,8 +1,8 @@
-import { ITimestamp } from "./index";
+import { ITimestamp } from './index';
 
 export interface IAddress extends ITimestamp {
-    _id: string;
-    street: string;
-    city: string;
-    postalCode: string;
+  _id: string;
+  street: string;
+  city: string;
+  postalCode: string;
 }

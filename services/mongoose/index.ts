@@ -1,1 +1,1 @@
-export * from "./mongoose.service";
+export * from './mongoose.service';

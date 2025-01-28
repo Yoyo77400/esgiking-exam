@@ -1,20 +1,17 @@
-import express from "express";
-import { config } from "dotenv";
+import express from 'express';
+import { config } from 'dotenv';
 
 config();
 
 function launchAPI() {
-    const app = express();
-    
+  const app = express();
 }
 
-async function setupAPI() {
-
-}
+async function setupAPI() {}
 
 async function main() {
-    await setupAPI();
-    launchAPI();
+  await setupAPI();
+  launchAPI();
 }
 
 main().catch(console.error);

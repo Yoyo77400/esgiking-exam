@@ -1,21 +1,23 @@
-import { Schema } from "mongoose";
-import { IRestaurant } from "../../../models/";
+import { Schema } from 'mongoose';
+import { IRestaurant } from '../../../models/';
 
-
-export const RestaurantSchema = new Schema<IRestaurant> ({
+export const RestaurantSchema = new Schema<IRestaurant>(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     admin: {
-        type: String,
-    }
-}, {
+      type: String,
+    },
+  },
+  {
     timestamps: true,
-    collection: "restaurants",
-    versionKey: false
-})
+    collection: 'restaurants',
+    versionKey: false,
+  },
+);
