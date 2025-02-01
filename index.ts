@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 console.log('Hello, world!');
 console.log('Hello, world 2 !');
-=======
+
 import express from 'express';
 import { config } from 'dotenv';
 
@@ -19,4 +18,3 @@ async function main() {
 }
 
 main().catch(console.error);
->>>>>>> adrien
