@@ -1,4 +1,4 @@
-# esgiking-exam
+# Esgiking Projet d'examen
 
 Réalisation d’une API Node.JS permettant de réaliser des commandes aux bornes, sur un téléphone, ou
 en ligne pour une chaine de fast food et de gérer aussi les commandes en cuisine.
