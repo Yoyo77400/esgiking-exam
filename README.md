@@ -27,4 +27,4 @@ Vous devrez réaliser la base de données en relation avec votre API, une docume
 vos services web est attendue (pour chaque : méthode, url, entrée, sortie, cas d’erreur, etc...)
 Bonus: un back-office, un front pour les bornes, un front pour la cuisine, une application mobile pour
 passer commande, le suivie de livraison depuis une tablette ? une visualisation des produits disponible en
-restaurant en VR ?
+restaurant en VR ?  
