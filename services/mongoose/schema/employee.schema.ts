@@ -1,47 +1,40 @@
 import { Schema } from 'mongoose';
-import { IEmployee} from '../../../models';
-import { Models } from '../mongoose.models';
+import { IEmployee } from '../../../models';
 
 export const EmployeeSchema = new Schema<IEmployee>(
   {
-    user: { 
-      type: Schema.Types.ObjectId, 
-      ref: Models.User, 
-      required: true 
-    },
     role: { 
       type: String, 
-      enum: Object.values(IEmployeeRole), 
       required: true 
     },
-    address: { 
+    user: { 
       type: Schema.Types.ObjectId, 
-      ref: Models.Address, 
-      required: false 
+      ref: 'User', 
+      required: true 
     },
     deliveries: [{ 
       type: Schema.Types.ObjectId, 
-      ref: Models.Delivery, 
+      ref: 'Delivery', 
       required: false 
     }],
     restaurant: { 
       type: Schema.Types.ObjectId, 
-      ref: Models.Restaurant, 
+      ref: 'Restaurant', 
       required: false 
     },
     orders: [{ 
       type: Schema.Types.ObjectId, 
-      ref: Models.Order, 
+      ref: 'Order', 
       required: false 
     }],
     tracker: { 
       type: Schema.Types.ObjectId, 
-      ref: Models.Tracker, 
+      ref: 'Tracker', 
       required: false 
     },
     session: { 
       type: Schema.Types.ObjectId, 
-      ref: Models.Session, 
+      ref: 'Session', 
       required: false 
     },
   },
@@ -49,5 +42,5 @@ export const EmployeeSchema = new Schema<IEmployee>(
     timestamps: true,
     collection: 'employees',
     versionKey: false,
-  },
+  }
 );
