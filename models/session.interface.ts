@@ -1,7 +1,7 @@
-import { IUser } from './user.interface';
-import { ITimestamp } from './timestamp.interface';
+import { ITimestamp, IUser } from './index';
 
 export interface ISession extends ITimestamp {
   _id: string;
-  user: string | IUser;
+  accessToken: string;
+  user: IUser;
 }
