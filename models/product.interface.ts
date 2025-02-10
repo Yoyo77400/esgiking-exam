@@ -1,10 +1,11 @@
-import { ITimestamp, IPromotion } from './index';
+import { ITimestamp, IMenu, IPromotion, ICategory } from './index';
 
 export interface IProduct extends ITimestamp {
   _id: string;
   name: string;
   description: string;
   price: number;
-  composition: string[];
-  promotions?: IPromotion[];
+  menu?: IMenu;
+  promotion?: IPromotion;
+  category: ICategory;
 }

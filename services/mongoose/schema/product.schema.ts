@@ -1,38 +1,40 @@
 import { Schema } from 'mongoose';
-import { IProduct } from '../../../models';
+import { IProduct, IMenu, IPromotion, ICategory } from '../../../models'; // Import unique
 
+// Schéma pour le produit
 export const ProductSchema = new Schema<IProduct>(
   {
-    name: {
-      type: String,
-      required: true,
-      unique: true,
+    name: { 
+      type: String, 
+      required: true 
     },
-    description: {
-      type: String,
-      required: true,
+    description: { 
+      type: String, 
+      required: true 
     },
-    price: {
-      type: Number,
-      required: true,
+    price: { 
+      type: Number, 
+      required: true 
     },
-    composition: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    promotions: [
-      {
-        type: Schema.Types.ObjectId,
-        required: false,
-        ref: 'promotions',
-      },
-    ],
+    menu: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Menu',  // Référence à la collection 'menus'
+      required: false 
+    },
+    promotion: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Promotion',  // Référence à la collection 'promotions'
+      required: false 
+    },
+    category: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Category',  // Référence à la collection 'categories'
+      required: true 
+    },
   },
   {
-    timestamps: true,
-    collection: 'products',
-    versionKey: false,
-  },
+    timestamps: true, // Génère automatiquement createdAt et updatedAt
+    collection: 'products', // Nom de la collection dans MongoDB
+    versionKey: false, // Ne pas inclure de champ "__v" (version)
+  }
 );

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
-import { IUser } from '../../../models';
-import { Models } from '../mongoose.models';
+import { IUser, IAddress } from '../../../models'; // Import unique
 
+// Schéma pour l'utilisateur
 export const UserSchema = new Schema<IUser>(
   {
     firstName: { 
@@ -15,25 +15,21 @@ export const UserSchema = new Schema<IUser>(
     email: { 
       type: String, 
       required: true, 
-      unique: true 
+      unique: true // S'assure que l'email est unique
     },
     password: { 
       type: String, 
       required: true 
     },
-    role: { 
-      type: String, 
-      required: true 
-    },
     address: { 
       type: Schema.Types.ObjectId, 
-      ref: Models.Address, 
-      required: false 
+      ref: 'Address', // Référence à la collection 'addresses'
+      required: false // L'adresse est optionnelle
     },
   },
   {
-    timestamps: true,
-    collection: 'users',
-    versionKey: false,
-  },
+    timestamps: true,  // Ajoute automatiquement createdAt et updatedAt
+    collection: 'users',  // Nom de la collection dans MongoDB
+    versionKey: false,  // Ne pas inclure de champ "__v" (version)
+  }
 );

@@ -1,18 +1,22 @@
-import { ISession } from '../../../models';
 import { Schema } from 'mongoose';
-import { Models } from '../mongoose.models';
+import { ISession, IUser } from '../../../models'; // Import unique
 
-export const sessionSchema = new Schema<ISession>(
+// Schéma pour la session
+export const SessionSchema = new Schema<ISession>(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: Models.User,
-      required: true,
+    accessToken: { 
+      type: String, 
+      required: true 
+    },
+    user: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'User',  // Référence à la collection 'users'
+      required: true 
     },
   },
   {
-    timestamps: true,
-    collection: 'session',
-    versionKey: false,
-  },
+    timestamps: true,  // Ajoute automatiquement createdAt et updatedAt
+    collection: 'sessions', // Nom de la collection dans MongoDB
+    versionKey: false, // Ne pas inclure de champ "__v" (version)
+  }
 );
