@@ -15,7 +15,7 @@ export const PromotionSchema = new Schema<IPromotion>(
     },
     restaurant: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Restaurant',  // Référence à la collection 'restaurants'
+      ref: 'restaurants',  // Référence à la collection 'restaurants'
       required: true 
     },
     startAt: { 
@@ -28,7 +28,7 @@ export const PromotionSchema = new Schema<IPromotion>(
     },
     responsable: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee',  // Référence à la collection 'employees'
+      ref: 'employees',  // Référence à la collection 'employees'
       required: true 
     },
   },

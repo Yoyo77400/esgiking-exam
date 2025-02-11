@@ -10,7 +10,7 @@ export const SessionSchema = new Schema<ISession>(
     },
     user: { 
       type: Schema.Types.ObjectId, 
-      ref: 'User',  // Référence à la collection 'users'
+      ref: 'users',  // Référence à la collection 'users'
       required: true 
     },
   },

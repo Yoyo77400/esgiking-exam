@@ -5,17 +5,17 @@ export const CustomerSchema = new Schema<ICustomer>(
   {
     user: { 
       type: Schema.Types.ObjectId, 
-      ref: 'User', 
+      ref: 'users', 
       required: true 
     },
     orders: [{ 
       type: Schema.Types.ObjectId, 
-      ref: 'Order', 
+      ref: 'orders', 
       required: false 
     }],
     session: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Session', 
+      ref: "sessions", 
       required: false 
     },
   },

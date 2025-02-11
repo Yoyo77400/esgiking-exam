@@ -5,7 +5,7 @@ export const ChatSchema = new Schema<IChat>(
   {
     delivery: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Delivery', 
+      ref: 'deliveries', 
       required: true 
     },
     message: { 

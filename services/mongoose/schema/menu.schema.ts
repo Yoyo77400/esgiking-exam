@@ -13,7 +13,7 @@ export const MenuSchema = new Schema<IMenu>(
     },
     products: [{ 
       type: Schema.Types.ObjectId, 
-      ref: 'Product', 
+      ref: 'products', 
       required: true 
     }],
   },

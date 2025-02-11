@@ -14,7 +14,7 @@ export const TrackerSchema = new Schema<ITracker>(
     },
     employee: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee',  // Référence à la collection 'employees'
+      ref: 'employees',  // Référence à la collection 'employees'
       required: true 
     },
   },

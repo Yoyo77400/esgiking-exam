@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { IOrder, IOrderItem, IOrderStatus, IProduct, IMenu, IUser, IEmployee, IPromotion } from '../../../models'; // Import unique
+import { IOrder, IOrderItem, IOrderStatus } from '../../../models';
 
 // Schéma pour l'article de la commande
 const OrderItemSchema = new Schema<IOrderItem>(
@@ -34,23 +34,23 @@ export const OrderSchema = new Schema<IOrder>(
     },
     promotion: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Promotion', 
+      ref: 'promotions', 
       required: false 
     },
     items: [OrderItemSchema],  // Utilisation du schéma pour les articles
     preparator: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee', 
+      ref: 'employees', 
       required: true 
     },
     deliveryMan: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee', 
+      ref: 'employees', 
       required: true 
     },
     menu: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Menu', 
+      ref: 'menus', 
       required: true 
     },
     status: { 
