@@ -2,7 +2,7 @@ import { ISession } from '../../models';
 import { MongooseService } from './mongoose.service';
 import { Models } from './mongoose.models';
 import { Model, isValidObjectId } from 'mongoose';
-import { sessionSchema } from './schema';
+import { SessionSchema } from './schema/index';
 
 export type ICreateSession = Omit<ISession, '_id' | 'createdAt' | 'updatedAt'>;
 
@@ -12,7 +12,7 @@ export class SessionService {
 
   constructor(mongooseService: MongooseService) {
     this.mongooseService = mongooseService;
-    this.sessionModel = this.mongooseService.mongoose.model(Models.Session, sessionSchema);
+    this.sessionModel = this.mongooseService.mongoose.model(Models.Session, SessionSchema);
   }
 
   createSession(session: ICreateSession): Promise<ISession> {

@@ -9,32 +9,32 @@ export const EmployeeSchema = new Schema<IEmployee>(
     },
     user: { 
       type: Schema.Types.ObjectId, 
-      ref: 'User', 
+      ref: 'users', 
       required: true 
     },
     deliveries: [{ 
       type: Schema.Types.ObjectId, 
-      ref: 'Delivery', 
+      ref: 'deliveries', 
       required: false 
     }],
     restaurant: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Restaurant', 
+      ref: 'restaurants', 
       required: false 
     },
     orders: [{ 
       type: Schema.Types.ObjectId, 
-      ref: 'Order', 
+      ref: 'orders', 
       required: false 
     }],
     tracker: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Tracker', 
+      ref: 'trackers', 
       required: false 
     },
     session: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Session', 
+      ref: 'sessions', 
       required: false 
     },
   },

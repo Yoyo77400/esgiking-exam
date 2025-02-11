@@ -10,7 +10,7 @@ export const RestaurantSchema = new Schema<IRestaurant>(
     },
     responsable: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee',  // Référence à la collection 'employees'
+      ref: 'employees',  // Référence à la collection 'employees'
       required: true 
     },
     telephone: { 
@@ -19,7 +19,7 @@ export const RestaurantSchema = new Schema<IRestaurant>(
     },
     address: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Address',  // Référence à la collection 'addresses'
+      ref: 'addresses',  // Référence à la collection 'addresses'
       required: true 
     },
     description: { 

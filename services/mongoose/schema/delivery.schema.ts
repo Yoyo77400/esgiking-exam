@@ -10,7 +10,7 @@ export const DeliverySchema = new Schema<IDelivery>(
     },
     order: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Order', 
+      ref: 'oders', 
       required: true 
     },
     status: { 
@@ -21,17 +21,17 @@ export const DeliverySchema = new Schema<IDelivery>(
     },
     employee: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Employee', 
+      ref: 'employees', 
       required: true 
     },
     customer: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Customer', 
+      ref: 'customers',     
       required: true 
     },
     chat: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Chat', 
+      ref: 'chats', 
       required: true 
     },
     estimated_delivery: { 

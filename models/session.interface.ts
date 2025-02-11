@@ -1,7 +1,8 @@
-import { ITimestamp, IUser } from './index';
+import { ITimestamp, IUser, IEmployee } from './index';
 
 export interface ISession extends ITimestamp {
   _id: string;
   accessToken: string;
-  user: IUser;
+  user?: IUser;
+  employee?: IEmployee;
 }

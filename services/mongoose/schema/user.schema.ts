@@ -23,7 +23,7 @@ export const UserSchema = new Schema<IUser>(
     },
     address: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Address', // Référence à la collection 'addresses'
+      ref: 'addresses', // Référence à la collection 'addresses'
       required: false // L'adresse est optionnelle
     },
   },

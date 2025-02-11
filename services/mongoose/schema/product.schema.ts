@@ -18,17 +18,17 @@ export const ProductSchema = new Schema<IProduct>(
     },
     menu: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Menu',  // Référence à la collection 'menus'
+      ref: 'menus',  // Référence à la collection 'menus'
       required: false 
     },
     promotion: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Promotion',  // Référence à la collection 'promotions'
+      ref: 'promotions',  // Référence à la collection 'promotions'
       required: false 
     },
     category: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Category',  // Référence à la collection 'categories'
+      ref: 'categories',  // Référence à la collection 'categories'
       required: true 
     },
   },
