@@ -1,4 +1,6 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
 import {UserRole} from './models';
@@ -8,8 +10,15 @@ config();
 function launchAPI() {
   const app = express();
 
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+  app.route('/').get((req, res) => {
+    res.send('Hello World!');
+  });
+
   app.listen(process.env.PORT || 3000, () => {
     console.log('API launched on port 3000');
+    console.log('Swagger docs available at http://localhost:3000/api-docs');
   });
 }
 
