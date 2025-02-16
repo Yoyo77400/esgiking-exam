@@ -4,10 +4,6 @@ import { ISession, IUser } from '../../../models'; // Import unique
 // Schéma pour la session
 export const SessionSchema = new Schema<ISession>(
   {
-    accessToken: { 
-      type: String, 
-      required: true 
-    },
     user: { 
       type: Schema.Types.ObjectId, 
       ref: 'users',  // Référence à la collection 'users'

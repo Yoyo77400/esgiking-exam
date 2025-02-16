@@ -20,7 +20,7 @@ export class SessionService {
   }
 
   findActiveSession(token: string): Promise<ISession | null> {
-    if (isValidObjectId(token)) {
+    if (!isValidObjectId(token)) {
       return Promise.resolve(null);
     }
 

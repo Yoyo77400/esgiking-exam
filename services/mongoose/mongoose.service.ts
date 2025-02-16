@@ -4,6 +4,8 @@ import { ProductService } from './product.service';
 import { UserService } from './user.service';
 import { SessionService } from './session.service';
 import { EmployeeService } from './employee.service';
+import { CategoryService } from './category.service';
+import { MenuService } from './menu.service';
 
 export class MongooseService {
   private static instance?: MongooseService;
@@ -13,6 +15,8 @@ export class MongooseService {
   public userService: UserService;
   public sessionService: SessionService;
   public employeeService: EmployeeService;
+  public categoryService: CategoryService;
+  public menuService: MenuService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -21,6 +25,8 @@ export class MongooseService {
     this.userService = new UserService(this);
     this.sessionService = new SessionService(this);
     this.employeeService = new EmployeeService(this);
+    this.categoryService = new CategoryService(this);
+    this.menuService = new MenuService(this);
   }
 
   public static async getInstance(): Promise<MongooseService> {

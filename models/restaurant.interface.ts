@@ -4,7 +4,7 @@ export interface IRestaurant extends ITimestamp {
   _id: string;
   name: string;
   responsable: IEmployee;
-  telephone: string;
+  telephone?: string;
   address: IAddress;
-  description: string;
+  description?: string;
 }

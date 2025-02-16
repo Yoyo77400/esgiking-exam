@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
-import {UserRole} from './models';
+import {IEmployeeRole} from './models';
 
 config();
 
@@ -26,22 +26,15 @@ async function setupAPI(): Promise<void> {
   const mongooseService = await MongooseService.getInstance();
   const userService = mongooseService.userService;
   const employeeService = mongooseService.employeeService;
-  const rootUser = await userService.findUserByEmail('root@root.fr');
+  const rootUser = await userService.findUserByEmail('root@esgiking.fr');
   if (!rootUser) {
-    const user = await userService.createUser({
-      email: 'root@root.fr',
-      password: 'root',
-      firstName: 'root',
-      lastName: 'root',
+    await employeeService.createEmployee({
+      email: 'employee@esgiking.fr',
+      password: 'employee',
+      firstName: 'employee',
+      lastName: 'employee',
+      role: IEmployeeRole.ADMIN
     });
-
-    const rootEmployee = await employeeService.findEmployeeByEmail('root@root.fr');
-    if (!rootEmployee) {
-      await employeeService.createEmployee({
-        user: user,
-        role: UserRole.ADMIN
-      });
-    }
   }
 }
 

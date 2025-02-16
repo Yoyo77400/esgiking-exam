@@ -39,6 +39,16 @@ export class ProductService {
     return this.productModel.findByIdAndDelete(id);
   }
 
+  async addPromotionToProduct(product_id: string, promotion_id: string): Promise<IProduct | null> {
+    if (!isValidObjectId(product_id) || !isValidObjectId(promotion_id)) {
+      return Promise.resolve(null);
+    }
+
+    return this.productModel
+      .findByIdAndUpdate(product_id, { $addToSet: { promotions: promotion_id } })
+      .populate('promotions');
+  }
+
   async removePromotionFromProduct(
     product_id: string,
     promotion_id: string,
