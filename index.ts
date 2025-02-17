@@ -4,15 +4,19 @@ import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
 import {IEmployeeRole} from './models';
+import {AuthController, MenuController, ProductController, RestaurantController} from './controllers';
 import { SecurityUtils } from './utils/security.utils';
-import { AuthController, RestaurantController } from './controllers';
 
 config();
 
 function launchAPI() {
   const app = express();
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
   app.use('/auth', AuthController.getInstance().buildRouter());
-  app.use('/restaurant', RestaurantController.getInstance().buildRouter());
+  app.use('/menus', MenuController.getInstance().buildRouter());
+  app.use('/products', ProductController.getInstance().buildRouter());
+  app.use('/restaurants', RestaurantController.getInstance().buildRouter());
 
 
   app.listen(process.env.PORT || 3000, () => {

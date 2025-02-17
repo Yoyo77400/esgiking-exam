@@ -10,7 +10,6 @@ export enum IEmployeeRole {
 export interface IEmployee extends ITimestamp, IUser {
   _id: string;
   role: IEmployeeRole;
-  // user: IUser;
   deliveries?: IDelivery[];
   restaurant?: IRestaurant;
   orders?: IOrder[];

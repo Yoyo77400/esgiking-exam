@@ -7,13 +7,13 @@ export const SessionSchema = new Schema<ISession>(
     user: { 
       type: Schema.Types.ObjectId, 
       ref: 'users',  // Référence à la collection 'users'
-      required: false 
+      required: false, 
     },
-    employee: { 
+    employee: {
       type: Schema.Types.ObjectId, 
-      ref: 'employees',  // Référence à la collection 'users'
-      required: false 
-    },
+      ref: 'employees',  // Référence à la collection 'employees'
+      required: false,
+    }
   },
   {
     timestamps: true,  // Ajoute automatiquement createdAt et updatedAt

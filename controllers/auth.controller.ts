@@ -17,6 +17,7 @@ export class AuthController {
             res.status(400).end();
             return;
         }
+        console.log(req.body);
         const mongooseService = await MongooseService.getInstance();
         const employeeService = mongooseService.employeeService;
         const validEmployee = await employeeService.findValidEmployee(req.body.email, req.body.password);
@@ -36,7 +37,7 @@ export class AuthController {
     buildRouter(): express.Router {
         const router = express.Router();
         router.post('/login', express.json(), this.login.bind(this));
-        router.get('/me',sessionMiddleware(), this.me.bind(this));
+        router.get('/me', sessionMiddleware(), this.me.bind(this));
         return router;
     }
 }
