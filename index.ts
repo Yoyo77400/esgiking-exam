@@ -4,33 +4,31 @@ import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
 import {IEmployeeRole} from './models';
+import { SecurityUtils } from './utils/security.utils';
+import { AuthController, RestaurantController } from './controllers';
 
 config();
 
 function launchAPI() {
   const app = express();
+  app.use('/auth', AuthController.getInstance().buildRouter());
+  app.use('/restaurant', RestaurantController.getInstance().buildRouter());
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-  app.route('/').get((req, res) => {
-    res.send('Hello World!');
-  });
 
   app.listen(process.env.PORT || 3000, () => {
-    console.log('API launched on port 3000');
-    console.log('Swagger docs available at http://localhost:3000/api-docs');
+    console.log('Le serveur est bien lancé sur le port 3000');
   });
 }
 
 async function setupAPI(): Promise<void> {
   const mongooseService = await MongooseService.getInstance();
-  const userService = mongooseService.userService;
   const employeeService = mongooseService.employeeService;
-  const rootUser = await userService.findUserByEmail('root@esgiking.fr');
+  const rootUser = await employeeService.findEmployeeByEmail('root@esgiking.fr');
+  const password = "employee";
   if (!rootUser) {
     await employeeService.createEmployee({
-      email: 'employee@esgiking.fr',
-      password: 'employee',
+      email: 'root@esgiking.fr',
+      password: SecurityUtils.sha256(password),
       firstName: 'employee',
       lastName: 'employee',
       role: IEmployeeRole.ADMIN

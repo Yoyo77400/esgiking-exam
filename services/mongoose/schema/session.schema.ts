@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { ISession, IUser } from '../../../models'; // Import unique
+import { ISession } from '../../../models'; // Import unique
 
 // Schéma pour la session
 export const SessionSchema = new Schema<ISession>(
@@ -7,7 +7,12 @@ export const SessionSchema = new Schema<ISession>(
     user: { 
       type: Schema.Types.ObjectId, 
       ref: 'users',  // Référence à la collection 'users'
-      required: true 
+      required: false 
+    },
+    employee: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'employees',  // Référence à la collection 'users'
+      required: false 
     },
   },
   {

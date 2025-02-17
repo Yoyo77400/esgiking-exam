@@ -1,7 +1,7 @@
 import express from "express";
-import {UserRole} from "../models";
+import {IEmployeeRole} from "../models";
 
-export function roleMiddleware(role: UserRole): express.RequestHandler {
+export function roleMiddleware(role: IEmployeeRole): express.RequestHandler {
 
     return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         if(req.employee && req.employee.role === role) {

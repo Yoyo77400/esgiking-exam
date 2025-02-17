@@ -31,7 +31,7 @@ export class MenuController {
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware([IEmployeeRole.ADMIN]), 
+            roleMiddleware(IEmployeeRole.ADMIN), 
             this.createMenu.bind(this));
         return router;
     }
