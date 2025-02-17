@@ -7,11 +7,6 @@ export const EmployeeSchema = new Schema<IEmployee>(
       type: String, 
       required: true 
     },
-    user: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'users', 
-      required: true 
-    },
     deliveries: [{ 
       type: Schema.Types.ObjectId, 
       ref: 'deliveries', 
