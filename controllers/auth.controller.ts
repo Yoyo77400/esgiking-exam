@@ -18,10 +18,10 @@ export class AuthController {
             res.status(400).end();
             return;
         }
-
+        console.log(req.body);
         const mongooseService = await MongooseService.getInstance();
-        const userService = mongooseService.employeeService;
-        const validEmployee = await userService.findValidEmployee(req.body.email, req.body.password);
+        const employeeService = mongooseService.employeeService;
+        const validEmployee = await employeeService.findValidEmployee(req.body.email, req.body.password);
         if (!validEmployee) {
             res.status(401).end();
             return;
@@ -38,7 +38,7 @@ export class AuthController {
     buildRouter(): express.Router {
         const router = express.Router();
         router.post('/login', express.json(), this.login.bind(this));
-        router.get('/me',express.json(), this.me.bind(this));
+        router.get('/me', sessionMiddleware(), this.me.bind(this));
         return router;
     }
 }

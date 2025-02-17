@@ -32,7 +32,7 @@ export class EmployeeController {
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware([IEmployeeRole.ADMIN]), 
+            roleMiddleware(IEmployeeRole.ADMIN), 
             this.createEmployee.bind(this));
         return router;
     }

@@ -31,7 +31,7 @@ export class ProductController {
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware([IEmployeeRole.ADMIN]), 
+            roleMiddleware(IEmployeeRole.ADMIN), 
             this.createProduct.bind(this));
         return router;
     }

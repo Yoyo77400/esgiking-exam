@@ -21,7 +21,10 @@ export class UserService {
   }
 
   async findUserByEmail(email: string): Promise<IUser | null> {
-    return this.userModel.findOne({ email: email });
+    console.log("find user by email", email);
+    const user = await this.userModel.findOne({ email: email });
+    console.log("user", user);
+    return user;
   }
 
   async findValidUser(email: string, password: string): Promise<IUser | null> {

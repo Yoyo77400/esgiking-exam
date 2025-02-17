@@ -15,8 +15,9 @@ export class SessionService {
     this.sessionModel = this.mongooseService.mongoose.model(Models.Session, SessionSchema);
   }
 
-  createSession(session: ICreateSession): Promise<ISession> {
-    return this.sessionModel.create(session);
+  async createSession(sessionBody: ICreateSession): Promise<ISession> {
+     const session = await this.sessionModel.create(sessionBody);
+     return session;
   }
 
   findActiveSession(token: string): Promise<ISession | null> {

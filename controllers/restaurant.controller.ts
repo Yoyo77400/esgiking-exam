@@ -32,7 +32,7 @@ export class RestaurantController {
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware([IEmployeeRole.ADMIN]), 
+            roleMiddleware(IEmployeeRole.ADMIN), 
             this.createReastaurant.bind(this));
         return router;
     }
