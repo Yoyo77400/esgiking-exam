@@ -1,12 +1,14 @@
-import { Mongoose, connect } from 'mongoose';
-import { RestaurantService } from './restaurant.service';
-import { ProductService } from './product.service';
-import { UserService } from './user.service';
-import { SessionService } from './session.service';
-import { EmployeeService } from './employee.service';
-import { CategoryService } from './category.service';
-import { MenuService } from './menu.service';
-import { PromotionService } from './promotion.service';
+import { Mongoose, connect } from "mongoose";
+import {
+  MenuService,
+  CategoryService,
+  EmployeeService,
+  RestaurantService,
+  ProductService,
+  UserService,
+  SessionService,
+  PromotionService,
+} from "./index";
 
 export class MongooseService {
   private static instance?: MongooseService;
@@ -46,7 +48,7 @@ export class MongooseService {
         username: process.env.MONGO_USERNAME,
         password: process.env.MONGO_PASSWORD,
       },
-      authSource: 'admin',
+      authSource: "admin",
       dbName: process.env.MONGO_DATABASE as string,
     });
   }

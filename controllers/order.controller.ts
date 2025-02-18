@@ -24,8 +24,8 @@ export class ProductController {
     }
 
     const mongooseService = await MongooseService.getInstance();
-    const productService = mongooseService.productService;
-    const product = await productService.createProduct(req.body);
+    const orderService = mongooseService.orderService;
+    const product = await orderService.createProduct(req.body);
     res.json(product);
   }
 
@@ -36,8 +36,8 @@ export class ProductController {
     }
 
     const mongooseService = await MongooseService.getInstance();
-    const productService = mongooseService.productService;
-    const product = await productService.findProductById(req.params.id);
+    const orderService = mongooseService.orderService;
+    const product = await orderService.findProductById(req.params.id);
     if (!product) {
       res.status(404).end();
       return;
@@ -55,8 +55,8 @@ export class ProductController {
     }
 
     const mongooseService = await MongooseService.getInstance();
-    const productService = mongooseService.productService;
-    const product = await productService.deleteProductById(req.params.id);
+    const orderService = mongooseService.orderService;
+    const product = await orderService.deleteProductById(req.params.id);
     if (!product) {
       res.status(404).end();
       return;
