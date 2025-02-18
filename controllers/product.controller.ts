@@ -60,7 +60,7 @@ export class ProductController {
 
     buildRouter(): express.Router {
         const router = express.Router();
-        router.get('/product:id', this.getProduct.bind(this));
+        router.get('/product:id',express.json(), this.getProduct.bind(this));
         router.delete('/product:id',
             sessionMiddleware(),
             roleMiddleware(IEmployeeRole.ADMIN), 

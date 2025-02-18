@@ -26,13 +26,50 @@ export class MenuController {
         res.json(product);
     }
 
+    async getMenu(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id) {
+            res.status(400).end();
+            return;
+        }
+        
+        const mongooseService = await MongooseService.getInstance();
+        const menuService = mongooseService.menuService;
+        const menu = await menuService.findMenuById(req.params.id);
+        if (!menu) {
+            res.status(404).end();
+            return;
+        }
+        res.json(menu);
+    }
+
+    async deleteMenu(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id) {
+            res.status(400).end();
+            return;
+        }
+        
+        const mongooseService = await MongooseService.getInstance();
+        const menuService = mongooseService.menuService;
+        const menu = await menuService.deleteMenuById(req.params.id);
+        if (!menu) {
+            res.status(404).end();
+            return;
+        }
+        res.status(204).end();
+    }
+
     buildRouter(): express.Router {
         const router = express.Router();
+        router.get('/menu:id', sessionMiddleware(),express.json(), this.getMenu.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
             roleMiddleware(IEmployeeRole.ADMIN), 
             this.createMenu.bind(this));
+        router.delete('/menu:id',
+            sessionMiddleware(),
+            roleMiddleware(IEmployeeRole.ADMIN), 
+            this.deleteMenu.bind(this));
         return router;
     }
 }
