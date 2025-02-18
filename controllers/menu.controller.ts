@@ -60,15 +60,17 @@ export class MenuController {
 
     buildRouter(): express.Router {
         const router = express.Router();
-        router.get('/menu:id', sessionMiddleware(),express.json(), this.getMenu.bind(this));
+        router.get('/menu:id', 
+            express.json(), 
+            this.getMenu.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware(IEmployeeRole.MANAGER), 
+            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
             this.createMenu.bind(this));
         router.delete('/menu:id',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.MANAGER), 
+            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
             this.deleteMenu.bind(this));
         return router;
     }

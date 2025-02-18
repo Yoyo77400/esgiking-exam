@@ -60,15 +60,17 @@ export class ProductController {
 
     buildRouter(): express.Router {
         const router = express.Router();
-        router.get('/product:id',express.json(), this.getProduct.bind(this));
+        router.get('/product:id',
+            express.json(), 
+            this.getProduct.bind(this));
         router.delete('/product:id',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.MANAGER), 
+            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
             this.deleteProduct.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware(IEmployeeRole.MANAGER), 
+            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
             this.createProduct.bind(this));
         return router;
     }

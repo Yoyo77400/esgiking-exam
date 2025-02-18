@@ -63,16 +63,15 @@ export class CategoryController {
         router.post('/',
             express.json(),
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.MANAGER), 
+            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
             this.createCategory);
-        router.get('/:id',
+        router.get('/category:id',
             express.json(),
-            sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.MANAGER), 
             this.getCategory);
-        router.delete('/:id', sessionMiddleware(), 
-        roleMiddleware(IEmployeeRole.ADMIN), 
-        this.deleteCategory);
+        router.delete('/category:id', 
+            sessionMiddleware(), 
+            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER), 
+            this.deleteCategory);
         return router;
     }
 }
