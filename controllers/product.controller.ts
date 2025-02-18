@@ -63,12 +63,12 @@ export class ProductController {
         router.get('/product:id',express.json(), this.getProduct.bind(this));
         router.delete('/product:id',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.ADMIN), 
+            roleMiddleware(IEmployeeRole.MANAGER), 
             this.deleteProduct.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware(IEmployeeRole.ADMIN), 
+            roleMiddleware(IEmployeeRole.MANAGER), 
             this.createProduct.bind(this));
         return router;
     }
