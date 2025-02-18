@@ -26,6 +26,11 @@ export class EmployeeService {
     return this.employeeModel.findOne({ email: email });
   }
 
+  async deleteEmployeeByEmail(email: string): Promise<IEmployee | null> {
+    console.log("delete employee by email", email);
+    return this.employeeModel.findOneAndDelete({ email: email });
+  }
+
   async findValidEmployee(email: string, password: string): Promise<IEmployee | null> {
     console.log("find valid employee", email, password);
     const encryptedPassword = SecurityUtils.sha256(password);
