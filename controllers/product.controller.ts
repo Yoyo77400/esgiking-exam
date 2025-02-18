@@ -26,8 +26,45 @@ export class ProductController {
         res.json(product);
     }
 
+    async getProduct(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id) {
+            res.status(400).end();
+            return;
+        }
+        
+        const mongooseService = await MongooseService.getInstance();
+        const productService = mongooseService.productService;
+        const product = await productService.findProductById(req.params.id);
+        if (!product) {
+            res.status(404).end();
+            return;
+        }
+        res.json(product);
+    }
+
+    async deleteProduct(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id) {
+            res.status(400).end();
+            return;
+        }
+        
+        const mongooseService = await MongooseService.getInstance();
+        const productService = mongooseService.productService;
+        const product = await productService.deleteProductById(req.params.id);
+        if (!product) {
+            res.status(404).end();
+            return;
+        }
+        res.status(204).end();
+    }
+
     buildRouter(): express.Router {
         const router = express.Router();
+        router.get('/product:id', this.getProduct.bind(this));
+        router.delete('/product:id',
+            sessionMiddleware(),
+            roleMiddleware(IEmployeeRole.ADMIN), 
+            this.deleteProduct.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
