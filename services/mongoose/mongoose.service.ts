@@ -23,6 +23,7 @@ export class MongooseService {
   public menuService: MenuService;
   public promotionService: PromotionService;
   public trackerService: TrackerService;
+  public orderService: OrderService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -35,6 +36,8 @@ export class MongooseService {
     this.menuService = new MenuService(this);
     this.promotionService = new PromotionService(this);
     this.trackerService = new TrackerService(this);
+    this.orderService = new OrderService(this);
+
   }
 
   public static async getInstance(): Promise<MongooseService> {
