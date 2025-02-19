@@ -19,7 +19,6 @@ export class ProductController {
             res.status(400).end();
             return;
         }
-        
         const mongooseService = await MongooseService.getInstance();
         const productService = mongooseService.productService; 
         const product = await productService.createProduct(req.body);

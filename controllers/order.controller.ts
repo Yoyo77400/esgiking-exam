@@ -1,10 +1,16 @@
-import express from 'express';
+import express, { Request } from 'express';
 import { MongooseService } from '../services/mongoose';
 import { sessionMiddleware, roleMiddleware } from '../middleware';
 import { IEmployeeRole } from '../models';
+import ownerRestaurantMiddleware from '../middleware/ownerRestaurant.middleware';
 
 export class OrderController {
     private static instance?: OrderController;
+
+    private getRestaurantId(): string {
+        
+        return "5f748650a4b1c2f8f4c9b4d4"; 
+    }
 
     static getInstance(): OrderController {
         if (!OrderController.instance) {
@@ -150,6 +156,7 @@ export class OrderController {
         router.delete('/order:id',
             sessionMiddleware(),
             roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER),
+            ownerRestaurantMiddleware(),
             this.deleteOrderById);
         return router;
     }
