@@ -5,3 +5,4 @@ export * from "./menu.controller";
 export * from "./category.controller";
 export * from "./product.controller";
 export * from "./order.controller";
+export * from './borne.controller';

@@ -10,6 +10,7 @@ import {
   PromotionService,
   TrackerService,
 } from "./index";
+import { BorneService } from './borne.service';
 
 export class MongooseService {
   private static instance?: MongooseService;
@@ -24,6 +25,7 @@ export class MongooseService {
   public promotionService: PromotionService;
   public trackerService: TrackerService;
   public orderService: OrderService;
+  public borneService: BorneService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -37,7 +39,7 @@ export class MongooseService {
     this.promotionService = new PromotionService(this);
     this.trackerService = new TrackerService(this);
     this.orderService = new OrderService(this);
-
+    this.borneService = new BorneService(this);
   }
 
   public static async getInstance(): Promise<MongooseService> {

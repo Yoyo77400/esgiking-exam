@@ -6,7 +6,7 @@ import { Models } from './mongoose.models';
 
 export type ICreateBorne = Omit<IBorne, '_id' | 'admin' | 'createdAt' | 'updatedAt'>;
 
-export class RestauranService {
+export class BorneService {
   readonly mongooseService: MongooseService;
   readonly borneModel: Model<IBorne>;
 
