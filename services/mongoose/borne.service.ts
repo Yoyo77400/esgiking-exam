@@ -15,11 +15,11 @@ export class RestauranService {
     this.borneModel = this.mongooseService.mongoose.model(Models.Borne, BorneSchema);
   }
 
-  async createRestaurant(borne: ICreateBorne): Promise<IBorne> {
+  async createBorne(borne: ICreateBorne): Promise<IBorne> {
     return this.borneModel.create(borne);
   }
 
-  async findRestaurantById(id: string): Promise<IBorne | null> {
+  async findBorneById(id: string): Promise<IBorne | null> {
     if (!isValidObjectId(id)) {
       return Promise.resolve(null);
     }
@@ -27,11 +27,11 @@ export class RestauranService {
     return this.borneModel.findById(id);
   }
 
-  async findRestaurants(): Promise<IBorne[]> {
+  async findBornes(): Promise<IBorne[]> {
     return this.borneModel.find({});
   }
 
-  async updateRestaurantAdmin(
+  async updateBorneAdmin(
     admin_id: string,
     borne_id: string,
   ): Promise<IBorne | null> {
@@ -42,7 +42,7 @@ export class RestauranService {
     return this.borneModel.findByIdAndUpdate(borne_id, { admin: admin_id });
   }
 
-  async deleteRestaurantById(id: string): Promise<IBorne | null> {
+  async deleteBorneById(id: string): Promise<IBorne | null> {
     if (!isValidObjectId(id)) {
       return Promise.resolve(null);
     }
