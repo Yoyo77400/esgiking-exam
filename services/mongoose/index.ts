@@ -7,3 +7,4 @@ export * from "./employee.service";
 export * from "./category.service";
 export * from "./promotion.service";
 export * from "./menu.service";
+export * from "./tracker.service";

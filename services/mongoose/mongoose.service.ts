@@ -8,6 +8,7 @@ import {
   UserService,
   SessionService,
   PromotionService,
+  TrackerService,
 } from "./index";
 
 export class MongooseService {
@@ -21,6 +22,7 @@ export class MongooseService {
   public categoryService: CategoryService;
   public menuService: MenuService;
   public promotionService: PromotionService;
+  public trackerService: TrackerService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -32,6 +34,7 @@ export class MongooseService {
     this.categoryService = new CategoryService(this);
     this.menuService = new MenuService(this);
     this.promotionService = new PromotionService(this);
+    this.trackerService = new TrackerService(this);
   }
 
   public static async getInstance(): Promise<MongooseService> {
