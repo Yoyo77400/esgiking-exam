@@ -1,5 +1,7 @@
 # Esgiking Projet d'examen
 
+## Sujet
+
 Réalisation d’une API Node.JS permettant de réaliser des commandes aux bornes, sur un téléphone, ou
 en ligne pour une chaine de fast food et de gérer aussi les commandes en cuisine.
 
@@ -28,3 +30,6 @@ vos services web est attendue (pour chaque : méthode, url, entrée, sortie, cas
 Bonus: un back-office, un front pour les bornes, un front pour la cuisine, une application mobile pour
 passer commande, le suivie de livraison depuis une tablette ? une visualisation des produits disponible en
 restaurant en VR ?  
+
+## Documentation 
+

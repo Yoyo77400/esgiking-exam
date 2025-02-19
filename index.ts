@@ -4,7 +4,7 @@ import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
 import {IEmployeeRole} from './models';
-import {AuthController, MenuController, ProductController, RestaurantController} from './controllers';
+import {AuthController, MenuController, ProductController, RestaurantController, CategoryController, OrderController} from './controllers';
 import { SecurityUtils } from './utils/security.utils';
 
 config();
@@ -17,6 +17,8 @@ function launchAPI() {
   app.use('/menus', MenuController.getInstance().buildRouter());
   app.use('/products', ProductController.getInstance().buildRouter());
   app.use('/restaurants', RestaurantController.getInstance().buildRouter());
+  app.use('/categories', CategoryController.getInstance().buildRouter());
+  app.use('/orders', OrderController.getInstance().buildRouter());
 
 
   app.listen(process.env.PORT || 3000, () => {
