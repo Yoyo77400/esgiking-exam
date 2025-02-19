@@ -24,7 +24,9 @@ export class SessionService {
     if (!isValidObjectId(token)) {
       return Promise.resolve(null);
     }
-
-    return this.sessionModel.findById(token).populate('user');
+    
+    const employee = this.sessionModel.findById(token).populate("employee");
+    const user = this.sessionModel.findById(token).populate("user");
+    return employee || user;
   }
 }

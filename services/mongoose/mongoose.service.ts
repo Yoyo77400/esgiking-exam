@@ -1,12 +1,15 @@
-import { Mongoose, connect } from 'mongoose';
-import { RestaurantService } from './restaurant.service';
-import { ProductService } from './product.service';
-import { UserService } from './user.service';
-import { SessionService } from './session.service';
-import { EmployeeService } from './employee.service';
-import { CategoryService } from './category.service';
-import { MenuService } from './menu.service';
-import { PromotionService } from './promotion.service';
+import { Mongoose, connect } from "mongoose";
+import {
+  MenuService,
+  CategoryService,
+  EmployeeService,
+  RestaurantService,
+  ProductService,
+  UserService,
+  SessionService,
+  PromotionService,
+  TrackerService,
+} from "./index";
 import { BorneService } from './borne.service';
 
 export class MongooseService {
@@ -20,6 +23,8 @@ export class MongooseService {
   public categoryService: CategoryService;
   public menuService: MenuService;
   public promotionService: PromotionService;
+  public trackerService: TrackerService;
+  public orderService: OrderService;
   public borneService: BorneService;
 
   private constructor(mongoose: Mongoose) {
@@ -32,6 +37,8 @@ export class MongooseService {
     this.categoryService = new CategoryService(this);
     this.menuService = new MenuService(this);
     this.promotionService = new PromotionService(this);
+    this.trackerService = new TrackerService(this);
+    this.orderService = new OrderService(this);
     this.borneService = new BorneService(this);
   }
 
@@ -49,7 +56,7 @@ export class MongooseService {
         username: process.env.MONGO_USERNAME,
         password: process.env.MONGO_PASSWORD,
       },
-      authSource: 'admin',
+      authSource: "admin",
       dbName: process.env.MONGO_DATABASE as string,
     });
   }
