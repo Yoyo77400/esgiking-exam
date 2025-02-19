@@ -13,4 +13,5 @@ export * from './chat.interface';
 export * from './tracker.interface';
 export * from './menu.interface';
 export * from './customer.interface';
+export * from './borne.interface';
 

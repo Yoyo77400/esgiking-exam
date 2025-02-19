@@ -10,7 +10,7 @@ export const DeliverySchema = new Schema<IDelivery>(
     },
     order: { 
       type: Schema.Types.ObjectId, 
-      ref: 'oders', 
+      ref: 'orders', 
       required: true 
     },
     status: { 

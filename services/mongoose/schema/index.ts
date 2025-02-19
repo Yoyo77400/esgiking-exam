@@ -12,3 +12,4 @@ export * from './restaurant.schema';
 export * from './session.schema';
 export * from './tracker.schema';
 export * from './user.schema';
+export * from './borne.schema';

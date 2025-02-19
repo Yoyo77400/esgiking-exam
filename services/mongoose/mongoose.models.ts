@@ -13,4 +13,5 @@ export const Models = {
   Tracker: 'trackers',
   Menu: 'menus',
   Customer: 'customers',
+  Borne:'bornes'
 };
