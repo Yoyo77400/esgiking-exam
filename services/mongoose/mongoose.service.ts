@@ -9,8 +9,9 @@ import {
   SessionService,
   PromotionService,
   TrackerService,
+  OrderService,
+  BorneService
 } from "./index";
-import { BorneService } from './borne.service';
 
 export class MongooseService {
   private static instance?: MongooseService;
