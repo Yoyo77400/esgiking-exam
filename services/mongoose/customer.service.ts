@@ -16,8 +16,8 @@ export class CustomerService {
     }
 
     async createCustomer(user: IUser, customer: ICreateCustomer): Promise<ICustomer> {
-        this.mongooseService.userService.createUser(user);
-        return this.customerModel.create(customer);
+        const User = this.mongooseService.userService.createUser(user);
+        return this.customerModel.create({ ...customer, user: User});
     }
 
     async findCustomerById(id: string): Promise<ICustomer | null> {
