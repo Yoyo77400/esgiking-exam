@@ -12,17 +12,17 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  # express:
-  #   image: mongo-express:latest
-  #   container_name: esgiking_express
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on:
-  #     - mongo
-  #   environment:
-  #     MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/esgiking?authSource=admin
-  #   links:
-  #     - mongo
+  express:
+    image: mongo-express:latest
+    container_name: esgiking_express
+    ports:
+      - '8081:8081'
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
 
 volumes:
   mongo_data:

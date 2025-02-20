@@ -31,9 +31,11 @@ function launchAPI() {
   app.use('/restaurants', RestaurantController.getInstance().buildRouter());
   app.use('/categories', CategoryController.getInstance().buildRouter());
   app.use('/orders', OrderController.getInstance().buildRouter());
+  app.use('/deliveries', DeliveyController.getInstance().buildRouter());
+  app.use('/employees', EmployeeController.getInstance().buildRouter());
+  app.use('/trackers', TrackerController.getInstance().buildRouter());
+  app.use('/promotions', PromotionController.getInstance().buildRouter());
   
-
-
   app.listen(process.env.PORT || 3000, () => {
     console.log('Le serveur est bien lancé sur le port 3000');
   });
