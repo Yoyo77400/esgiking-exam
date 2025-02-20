@@ -1,4 +1,4 @@
-import { ITimestamp, IProduct, IMenu, IUser, IEmployee, IPromotion } from './index';
+import { ITimestamp, IProduct, IMenu, ICustomer, IEmployee, IPromotion, IRestaurant } from './index';
 
 // Enum pour les statuts de commande
 export enum IOrderStatus {
@@ -19,11 +19,11 @@ export interface IOrderItem {
 // Interface pour la commande
 export interface IOrder extends ITimestamp {
   _id: string;
-  user: IUser;
+  customer: ICustomer;
   promotion?: IPromotion;
   items: IOrderItem[];
-  preparator: IEmployee;
   deliveryMan: IEmployee;
   menu: IMenu;
   status: IOrderStatus;
+  restaurant: IRestaurant["_id"];
 }

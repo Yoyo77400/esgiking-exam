@@ -10,3 +10,5 @@ export * from "./menu.service";
 export * from "./tracker.service";
 export * from "./order.service";
 export * from "./borne.service";
+
+export * from "./delivery.service";

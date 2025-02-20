@@ -6,3 +6,7 @@ export * from "./category.controller";
 export * from "./product.controller";
 export * from "./order.controller";
 export * from './borne.controller';
+export * from './delivery.controller';
+export * from './employee.controller';
+export * from './promotion.controller';
+export * from './tracker.controller';
