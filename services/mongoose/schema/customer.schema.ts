@@ -6,7 +6,7 @@ export const CustomerSchema = new Schema<ICustomer>(
     user: { 
       type: Schema.Types.ObjectId, 
       ref: 'users', 
-      required: true 
+      required: false 
     },
     orders: [{ 
       type: Schema.Types.ObjectId, 

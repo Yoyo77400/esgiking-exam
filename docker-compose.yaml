@@ -1,6 +1,9 @@
+volumes:
+   mongo_data:
 services:
   mongo:
     image: mongo:latest
+    restart: always
     container_name: esgiking_mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -12,6 +15,7 @@ services:
 
   express:
     image: mongo-express:latest
+    restart: always
     container_name: esgiking_express
     ports:
       - '8081:8080'
@@ -26,15 +30,12 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: admin
   
-  api:
-    build: .
-    restart: always
-    depends_on:
-      - mongo
-    ports:
-      - 8080:3000
-    env_file:
-      - ".env"
-
-volumes:
-   mongo_data:
+  # api:
+  #   build: .
+  #   restart: always
+  #   depends_on:
+  #     - mongo
+  #   ports:
+  #     - 8080:3000
+  #   env_file:
+  #     - ".env"

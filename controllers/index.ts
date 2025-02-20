@@ -10,3 +10,4 @@ export * from './delivery.controller';
 export * from './employee.controller';
 export * from './promotion.controller';
 export * from './tracker.controller';
+export * from './customer.controller';

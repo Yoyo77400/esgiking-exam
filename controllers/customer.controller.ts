@@ -14,20 +14,17 @@ export class CustomerController {
     }
 
     async createCustomer(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.body || typeof req.body.name !== "string" || typeof req.body.email !== "string" || typeof req.body.phone !== "string" || typeof req.body.address !== "string" || typeof req.body.password !== "string") {
-            res.status(400).end();
-            return;
-        }
-        
         const mongooseService = await MongooseService.getInstance();
         const customerService = mongooseService.customerService;
-        const customer = await customerService.createCustomer(req.body.user, req.body.customer);
-        res.json(customer);
+        const userService = mongooseService.userService;
+        const user = await userService.createUser(req.body.user);
+        const customer = await customerService.createCustomer(user._id, req.body.customer);
+        res.json({customer, user});
     }
 
-    buildRoutes(): express.Router {
+    buildRouter(): express.Router {
         const router = express.Router();
-        router.post('/createCustomer', express.json(), this.createCustomer.bind(this));
+        router.post('/', express.json(), this.createCustomer.bind(this));
         return router;
     }
 }

@@ -15,6 +15,7 @@ import {
   EmployeeController,
   TrackerController,
   PromotionController,
+  CustomerController
 
 } from './controllers';
 import { SecurityUtils } from './utils/security.utils';
@@ -35,6 +36,8 @@ function launchAPI() {
   app.use('/employees', EmployeeController.getInstance().buildRouter());
   app.use('/trackers', TrackerController.getInstance().buildRouter());
   app.use('/promotions', PromotionController.getInstance().buildRouter());
+  app.use('/customers', CustomerController.getInstance().buildRouter());
+
   
   app.listen(process.env.PORT || 3000, () => {
     console.log('Le serveur est bien lancé sur le port 3000');
