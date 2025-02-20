@@ -1,7 +1,7 @@
-import { ICategory, IChat } from "../../models";
+import { IChat } from "../../models";
 import { MongooseService } from "./mongoose.service";
 import { Model, isValidObjectId } from "mongoose";
-import { CategorySchema, ChatSchema } from "./schema";
+import { ChatSchema } from "./schema";
 import { Models } from "./mongoose.models";
 
 export type ICreateChat = Omit<IChat, "_id" | "createdAt" | "updatedAt">;
@@ -29,16 +29,11 @@ export class ChatService {
     return this.chatModel.findById(id).populate("delivery");
   }
 
-  async updateChatById(
-    id: string,
-    message: string,
-    is_read: boolean
-  ): Promise<IChat | null> {
+  async findChatByDeliveryId(id: string): Promise<IChat | null> {
     if (!isValidObjectId(id)) {
       return Promise.resolve(null);
     }
-    const test = {};
-    return this.chatModel.findByIdAndUpdate();
+    return this.chatModel.findOne({ delivery_id: id }).populate('deliveries');
   }
 
   async deleteChatById(id: string): Promise<IChat | null> {

@@ -1,28 +1,52 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:latest
-    container_name: esgiking_mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+  app:
+    build: .
     ports:
-      - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:27017/${MONGODB_DATABASE}?authSource=admin
+      - PORT=3000
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
 
-  # express:
-  #   image: mongo-express:latest
-  #   container_name: esgiking_express
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on:
-  #     - mongo
-  #   environment:
-  #     MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/esgiking?authSource=admin
-  #   links:
-  #     - mongo
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=${MONGODB_USER}
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGODB_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PASSWORD}
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
-  mongo_data:
+  mongodb_data:

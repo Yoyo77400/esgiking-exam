@@ -17,7 +17,6 @@ export class AuthController {
             res.status(400).end();
             return;
         }
-        console.log(req.body);
         const mongooseService = await MongooseService.getInstance();
         const employeeService = mongooseService.employeeService;
         const validEmployee = await employeeService.findValidEmployee(req.body.email, req.body.password);
