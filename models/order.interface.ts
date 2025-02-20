@@ -1,17 +1,24 @@
-import { ITimestamp, IProduct, IMenu, IUser, IEmployee, IPromotion } from './index';
+import {
+  ITimestamp,
+  IProduct,
+  IMenu,
+  IUser,
+  IEmployee,
+  IPromotion,
+} from "./index";
 
 // Enum pour les statuts de commande
 export enum IOrderStatus {
-  PENDING = 'pending',
-  PREPARING = 'preparing',
-  ACCEPTED = 'accepted',
-  CANCELLED = 'cancelled',
-  DELIVERED = 'delivered',
+  PENDING = "pending",
+  PREPARING = "preparing",
+  ACCEPTED = "accepted",
+  CANCELLED = "cancelled",
+  DELIVERED = "delivered",
 }
 
 // Interface pour les articles de la commande
 export interface IOrderItem {
-  type: 'PRODUCT' | 'MENU';
+  type: "PRODUCT" | "MENU";
   item: IProduct | IMenu;
   quantity: number;
 }
