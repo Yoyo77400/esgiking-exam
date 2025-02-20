@@ -47,16 +47,19 @@ function launchAPI() {
 async function setupAPI(): Promise<void> {
   const mongooseService = await MongooseService.getInstance();
   const employeeService = mongooseService.employeeService;
+  const userService = mongooseService.userService;
   const rootUser = await employeeService.findEmployeeByEmail('root@esgiking.fr');
+  console.log("root user", rootUser);
   const password = "employee";
   if (!rootUser) {
-    await employeeService.createEmployee({
-      email: 'root@esgiking.fr',
-      password: SecurityUtils.sha256(password),
-      firstName: 'employee',
-      lastName: 'employee',
-      role: IEmployeeRole.ADMIN
+    const user = await userService.createUser({
+        email: 'root@esgiking.fr',
+        password: SecurityUtils.sha256(password),
+        firstName: 'employee',
+        lastName: 'employee',
+      
     });
+    await employeeService.createEmployee(user._id, { role: IEmployeeRole.ADMIN });
   }
 }
 

@@ -18,72 +18,43 @@ export class CustomerService {
     }
 
     async createCustomer(userId: String, customer: ICreateCustomer): Promise<ICustomer> {
-        return this.customerModel.create({orders: [], user: userId, ...customer});
+        return this.customerModel.create({orders: [],  user: userId});
+    }
+
+    async findCustomerById(id: string): Promise<ICustomer | null> {
+        if(!isValidObjectId(id)) {
+            return Promise.resolve(null);
+        }
+        return this.customerModel.findById(id);
+    }
+
+    async deleteCustomerById(id: string): Promise<ICustomer | null> {
+        if(!isValidObjectId(id)) {
+            return Promise.resolve(null);
+        }
+        return this.customerModel.findByIdAndDelete(id);
+    }
+
+    async updateCustomerSession(id: string, session: string): Promise<ICustomer | null> {
+        return this.customerModel.findByIdAndUpdate(id, {session}, {new: true}).populate('session');
+    }
+
+    async findCustomerByUserId(userId: string): Promise<ICustomer | null> {
+        return this.customerModel.findOne({ user: userId });
+    }
+
+    async updateCustomerOrders(id: string, orders: string[]): Promise<ICustomer | null> {
+        if(!isValidObjectId(id)) {
+            return Promise.resolve(null);
+        }
+        return this.customerModel.findByIdAndUpdate(id, { orders }, { new: true });
     }
 
 
-
-    // async findCustomerById(id: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findById(id);
-    // }
-
-    // async deleteCustomerById(id: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndDelete(id);
-    // }
-
-    // async updateCustomerName(id: string, name: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { name }, { new: true });
-    // }
-
-    // async updateCustomerEmail(id: string, email: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { email }, { new: true });
-    // }
-
-    // async updateCustomerPhone(id: string, phone: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { phone }, { new: true });
-    // }
-
-    // async updateCustomerAddress(id: string, address: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { address }, { new: true });
-    // }
-
-    // async updateCustomerPassword(id: string, password: string): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { password }, { new: true });
-    // }
-
-    // async updateCustomerOrders(id: string, orders: string[]): Promise<ICustomer | null> {
-    //     if(!isValidObjectId(id)) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findByIdAndUpdate(id, { orders }, { new: true });
-    // }
-
-
-    // async findCustomerByEmail(email: string): Promise<ICustomer | null> {
-    //     if(!email) {
-    //         return Promise.resolve(null);
-    //     }
-    //     return this.customerModel.findOne({ email });
-    // }
+    async findCustomerByEmail(email: string): Promise<ICustomer | null> {
+        if(!email) {
+            return Promise.resolve(null);
+        }
+        return this.customerModel.findOne({ email });
+    }
 }

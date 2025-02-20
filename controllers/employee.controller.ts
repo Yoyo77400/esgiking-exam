@@ -23,19 +23,20 @@ export class EmployeeController {
         
         const mongooseService = await MongooseService.getInstance();
         const employeeService = mongooseService.employeeService;
-        const employee = await employeeService.createEmployee(req.body);
-        res.json(employee);
+        const userService = mongooseService.userService;
+        const user = await userService.createUser(req.body.user);
+        const employee = await employeeService.createEmployee(user._id, req.body.employee);
+        res.json({employee, user});
     }
 
     async getEmployee(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.email) {
+        if(!req.body.email) {
             res.status(400).end();
             return;
         }
-        
         const mongooseService = await MongooseService.getInstance();
         const employeeService = mongooseService.employeeService;
-        const employee = await employeeService.findEmployeeByEmail(req.params.email);
+        const employee = await employeeService.findEmployeeByEmail(req.body.email);
         if (!employee) {
             res.status(404).end();
             return;
@@ -61,7 +62,7 @@ export class EmployeeController {
 
     buildRouter(): express.Router {
         const router = express.Router();
-        router.get('/employee:email', 
+        router.get('/findEmployee', 
             express.json(),
             sessionMiddleware(),
             roleMiddleware(IEmployeeRole.ADMIN),

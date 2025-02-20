@@ -12,5 +12,4 @@ export interface IBorne extends ITimestamp {
   _id: string;
   restaurant: IRestaurant;
   status: BorneStatus;
-
 }

@@ -25,8 +25,7 @@ export class SessionService {
       return Promise.resolve(null);
     }
     
-    const employee = this.sessionModel.findById(token).populate("employee");
     const user = this.sessionModel.findById(token).populate("user");
-    return employee || user;
+    return user;
   }
 }
