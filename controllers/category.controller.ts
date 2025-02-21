@@ -76,13 +76,13 @@ export class CategoryController {
             sessionMiddleware(), 
             roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.createCategory);
-        router.get('/category:id',
+        router.get('/:id',
             express.json(),
             this.getCategory);
-        router.get('/category:id/products',
+        router.get('/:id/products',
             express.json(),
             this.getProductsByCategory);
-        router.delete('/category:id', 
+        router.delete('/:id', 
             sessionMiddleware(), 
             roleMiddleware([IEmployeeRole.ADMIN,IEmployeeRole.MANAGER]), 
             this.deleteCategory);
