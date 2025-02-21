@@ -4,7 +4,20 @@ import swaggerDocs from './services/swagger';
 import { config } from 'dotenv';
 import {MongooseService} from './services';
 import {IEmployeeRole} from './models';
-import {AuthController, MenuController, ProductController, RestaurantController} from './controllers';
+import {
+  AuthController, 
+  MenuController, 
+  ProductController, 
+  RestaurantController, 
+  CategoryController, 
+  OrderController,
+  DeliveryController,
+  EmployeeController,
+  TrackerController,
+  PromotionController,
+  CustomerController,
+  ChatController
+} from './controllers';
 import { SecurityUtils } from './utils/security.utils';
 
 config();
@@ -17,8 +30,16 @@ function launchAPI() {
   app.use('/menus', MenuController.getInstance().buildRouter());
   app.use('/products', ProductController.getInstance().buildRouter());
   app.use('/restaurants', RestaurantController.getInstance().buildRouter());
+  app.use('/categories', CategoryController.getInstance().buildRouter());
+  app.use('/orders', OrderController.getInstance().buildRouter());
+  app.use('/deliveries', DeliveryController.getInstance().buildRouter());
+  app.use('/employees', EmployeeController.getInstance().buildRouter());
+  app.use('/trackers', TrackerController.getInstance().buildRouter());
+  app.use('/promotions', PromotionController.getInstance().buildRouter());
+  app.use('/customers', CustomerController.getInstance().buildRouter());
+  app.use('/chat', ChatController.getInstance().buildRouter());
 
-
+  
   app.listen(process.env.PORT || 3000, () => {
     console.log('Le serveur est bien lancé sur le port 3000');
   });
@@ -27,16 +48,18 @@ function launchAPI() {
 async function setupAPI(): Promise<void> {
   const mongooseService = await MongooseService.getInstance();
   const employeeService = mongooseService.employeeService;
+  const userService = mongooseService.userService;
   const rootUser = await employeeService.findEmployeeByEmail('root@esgiking.fr');
   const password = "employee";
   if (!rootUser) {
-    await employeeService.createEmployee({
-      email: 'root@esgiking.fr',
-      password: SecurityUtils.sha256(password),
-      firstName: 'employee',
-      lastName: 'employee',
-      role: IEmployeeRole.ADMIN
+    const user = await userService.createUser({
+        email: 'root@esgiking.fr',
+        password: SecurityUtils.sha256(password),
+        firstName: 'employee',
+        lastName: 'employee',
+      
     });
+    await employeeService.createEmployee(user._id, { role: IEmployeeRole.ADMIN });
   }
 }
 

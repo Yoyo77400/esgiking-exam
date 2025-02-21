@@ -24,11 +24,11 @@ export class ProductService {
       return Promise.resolve(null);
     }
 
-    return this.productModel.findById(id).populate('promotions');
+    return this.productModel.findById(id);
   }
 
   async findProducts(): Promise<IProduct[]> {
-    return this.productModel.find({}).populate('promotions');
+    return this.productModel.find({});
   }
 
   async deleteProductById(id: string): Promise<IProduct | null> {
@@ -45,8 +45,7 @@ export class ProductService {
     }
 
     return this.productModel
-      .findByIdAndUpdate(product_id, { $addToSet: { promotions: promotion_id } })
-      .populate('promotions');
+      .findByIdAndUpdate(product_id, { $addToSet: { promotions: promotion_id } });
   }
 
   async removePromotionFromProduct(
@@ -58,7 +57,6 @@ export class ProductService {
     }
 
     return this.productModel
-      .findByIdAndUpdate(product_id, { $pull: { promotions: promotion_id } })
-      .populate('promotions');
+      .findByIdAndUpdate(product_id, { $pull: { promotions: promotion_id } });
   }
 }

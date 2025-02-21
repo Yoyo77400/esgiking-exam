@@ -11,3 +11,5 @@ export * from "./tracker.service";
 export * from "./order.service";
 export * from "./borne.service";
 export * from "./chat.service";
+export * from "./delivery.service";
+export * from "./customer.service";

@@ -27,7 +27,7 @@ const OrderItemSchema = new Schema<IOrderItem>(
 // Schéma pour la commande
 export const OrderSchema = new Schema<IOrder>(
   {
-    user: { 
+    customer: { 
       type: Schema.Types.ObjectId, 
       ref: 'User', 
       required: true 
@@ -37,12 +37,7 @@ export const OrderSchema = new Schema<IOrder>(
       ref: 'promotions', 
       required: false 
     },
-    items: [OrderItemSchema],  // Utilisation du schéma pour les articles
-    preparator: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'employees', 
-      required: true 
-    },
+    items: [OrderItemSchema],  // Utilisation du schéma pour les articles de la commande
     deliveryMan: { 
       type: Schema.Types.ObjectId, 
       ref: 'employees', 
@@ -57,6 +52,10 @@ export const OrderSchema = new Schema<IOrder>(
       type: String, 
       enum: Object.values(IOrderStatus),  // Utilisation de l'enum pour les statuts
       required: true 
+    },
+    restaurant: {
+      type: String,
+      required: true,
     },
   },
   {

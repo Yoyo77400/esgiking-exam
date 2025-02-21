@@ -31,6 +31,7 @@ export const PromotionSchema = new Schema<IPromotion>(
       ref: 'employees',  // Référence à la collection 'employees'
       required: true 
     },
+ 
   },
   {
     timestamps: true, // Ajoute automatiquement createdAt et updatedAt

@@ -1,52 +1,45 @@
-version: '3.8'
-
+volumes:
+   mongo_data:
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:27017/${MONGODB_DATABASE}?authSource=admin
-      - PORT=3000
-    depends_on:
-      - mongodb
-    networks:
-      - app-network
-
-  mongodb:
+  mongo:
     image: mongo:latest
-    ports:
-      - "27017:27017"
+    restart: always
+    container_name: esgiking_mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
-      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
-    volumes:
-      - mongodb_data:/data/db
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PWD}
+    ports:
+      - '27017:27017'
     networks:
       - app-network
 
-  mongo-express:
+  express:
     image: mongo-express:latest
+    restart: always
+    container_name: esgiking_express
     ports:
-      - "8081:8081"
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=${MONGODB_USER}
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGODB_PASSWORD}
-      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER}
-      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PASSWORD}
+      - '8081:8080'
     depends_on:
-      - mongodb
-    networks:
-      - app-network
+      - mongo
+    links:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PWD}
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
 
 networks:
   app-network:
     driver: bridge
 
-volumes:
-  mongodb_data:
+  # api:
+  #   build: .
+  #   restart: always
+  #   depends_on:
+  #     - mongo
+  #   ports:
+  #     - 8080:3000
+  #   env_file:
+  #     - ".env"

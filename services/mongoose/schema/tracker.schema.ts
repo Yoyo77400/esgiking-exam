@@ -1,21 +1,23 @@
 import { Schema } from 'mongoose';
-import { ITracker, IEmployee } from '../../../models'; // Import unique
+import { ITracker } from '../../../models'; // Import unique
 
 // Schéma pour le tracker
 export const TrackerSchema = new Schema<ITracker>(
   {
     longitude: { 
-      type: Number, 
+      type: Number,
+      default: 0, 
       required: true 
     },
     latitude: { 
       type: Number, 
-      required: true 
+      default: 0,
+      required: true
     },
-    employee: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'employees',  // Référence à la collection 'employees'
-      required: true 
+    employee_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'employees',
+      required: true
     },
   },
   {

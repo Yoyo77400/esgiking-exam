@@ -10,7 +10,10 @@ import {
   PromotionService,
   TrackerService,
   OrderService,
+  BorneService,
   ChatService,
+  DeliveryService,
+  CustomerService
 } from "./index";
 
 export class MongooseService {
@@ -27,6 +30,10 @@ export class MongooseService {
   public trackerService: TrackerService;
   public orderService: OrderService;
   public chatService: ChatService;
+  public borneService: BorneService;
+
+  public deliveryService: DeliveryService;
+  public customerService: CustomerService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -41,6 +48,10 @@ export class MongooseService {
     this.trackerService = new TrackerService(this);
     this.orderService = new OrderService(this);
     this.chatService = new ChatService(this);
+    this.borneService = new BorneService(this);
+
+    this.deliveryService = new DeliveryService(this)
+    this.customerService = new CustomerService(this)
   }
 
   public static async getInstance(): Promise<MongooseService> {
@@ -54,11 +65,11 @@ export class MongooseService {
   private static openConnection(): Promise<Mongoose> {
     return connect(process.env.MONGO_URI! as string, {
       auth: {
-        username: process.env.MONGO_USERNAME,
-        password: process.env.MONGO_PASSWORD,
+        username: process.env.MONGO_USER,
+        password: process.env.MONGO_PWD,
       },
       authSource: "admin",
-      dbName: process.env.MONGO_DATABASE as string,
+      dbName: process.env.MONGO_DB as string,
     });
   }
 }

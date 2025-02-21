@@ -29,11 +29,13 @@ export class ChatService {
     return this.chatModel.findById(id).populate("delivery");
   }
 
-  async findChatByDeliveryId(id: string): Promise<IChat | null> {
+  async findChatsByDeliveryId(id: string): Promise<IChat[] |null> {
     if (!isValidObjectId(id)) {
       return Promise.resolve(null);
     }
-    return this.chatModel.findOne({ delivery_id: id }).populate('deliveries');
+    return this.chatModel.find({ delivery_id: id })
+      .sort({ createdAt: -1 })
+      .populate("deliveries");
   }
 
   async deleteChatById(id: string): Promise<IChat | null> {

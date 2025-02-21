@@ -1,15 +1,15 @@
-FROM node:18
-
-WORKDIR /app
-
-COPY package*.json ./
-
+FROM node:20-alpine AS tsc-builder
+WORKDIR /workspace
+COPY package.json /workspace/
 RUN npm install
-
-COPY . .
-
+COPY . /workspace/
 RUN npm run build
 
-EXPOSE 3000
+FROM node:20-alpine AS runner
+WORKDIR /workspace
+COPY package.json /workspace/
+RUN npm install --production
+COPY --from=tsc-builder /workspace/dist /workspace/dist
 
+EXPOSE $PORT
 CMD ["npm", "start"]

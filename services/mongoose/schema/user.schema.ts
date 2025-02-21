@@ -6,7 +6,7 @@ export const UserSchema = new Schema<IUser>(
   {
     firstName: { 
       type: String, 
-      required: true 
+      required: true
     },
     lastName: { 
       type: String, 
