@@ -49,6 +49,16 @@ export class ProductController {
     res.json(product);
   }
 
+  async getaAllProducts(
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> {
+    const mongooseService = await MongooseService.getInstance();
+    const productService = mongooseService.productService;
+    const products = await productService.findProducts();
+    res.json(products);
+  }
+
   async deleteProduct(
     req: express.Request,
     res: express.Response
@@ -76,6 +86,11 @@ export class ProductController {
       sessionMiddleware(),
       roleMiddleware([IEmployeeRole.ADMIN]),
       this.deleteProduct.bind(this)
+    );
+    router.get(
+      "/",
+      express.json(),
+      this.getaAllProducts.bind(this)
     );
     router.post(
       "/",
