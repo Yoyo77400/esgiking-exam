@@ -1,5 +1,5 @@
 import express from 'express';
-import { MongooseService } from '../services';
+import { MongooseService, TrackerService } from '../services';
 import { sessionMiddleware, roleMiddleware } from '../middleware';
 import { IEmployeeRole, DeliveryStatus } from '../models';
 
@@ -133,6 +133,73 @@ export class DeliveryController {
             return;
         }
         res.json(delivery);
+    }
+
+    /**
+     * @swagger
+     * /deliveries/{id}/restaurant/{restaurant_id}/closest:
+     *   post:
+     *     tags: [Deliveries]
+     *     summary: Assign the closest available delivery person to a delivery
+     *     description: Finds the nearest delivery person with READY status based on their current location and assigns them to the delivery
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: ID of the delivery to assign a delivery person to
+     *       - in: path
+     *         name: restaurant_id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: ID of the restaurant to find closest delivery person from
+     *     responses:
+     *       200:
+     *         description: Delivery person assigned successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Delivery'
+     *       400:
+     *         description: Invalid delivery ID or restaurant ID
+     *       404:
+     *         description: Delivery, restaurant, or available delivery person not found
+     */
+    async assignDeliveryPersonToDelivery(req: express.Request, res: express.Response): Promise<void> {
+        if (!req.params.restaurant_id || !req.params.id) {
+            res.status(400).json({ error: 'Restaurant ID is required' });
+            return;
+        }
+
+        const mongooseService = await MongooseService.getInstance();
+        const trackerService = mongooseService.trackerService;
+        const restaurantService = mongooseService.restaurantService;
+        const deliveryService = mongooseService.deliveryService;
+
+        const restaurant = await restaurantService.findRestaurantById(req.params.restaurant_id);
+        if (!restaurant) {
+            res.status(404).json({ error: 'Restaurant not found' });
+            return;
+        }
+        const delivery = await trackerService.findNearestTracker({
+            latitude: restaurant.address.latitude,
+            longitude: restaurant.address.longitude
+        });
+        
+        if (!delivery) {
+            res.status(404).json({ error: 'No available delivery person found' });
+            return;
+        }
+
+        const updatedDelivery = await deliveryService.updateDeliveryEmployee(req.params.id, delivery.employee_id.toString());
+        if (!updatedDelivery) {
+            res.status(404).end();
+            return;
+        }
+        
+        res.json(updatedDelivery);
     }
 
     /**
@@ -356,43 +423,34 @@ export class DeliveryController {
 
     buildRouter(): express.Router {
         const router = express.Router();
-        
-        // Create delivery
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER]),
             this.createDelivery.bind(this));
-
-        // Get delivery by ID
         router.get('/:id', 
             this.findDeliveryById.bind(this));
-
-        // Update delivery status
+        router.post('/:id/restaurant/:restaurant_id/closest', 
+            this.assignDeliveryPersonToDelivery.bind(this));
         router.patch('/:id/status',
             sessionMiddleware(),
             express.json(),
-            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.DELIVERYMAN]),
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER, IEmployeeRole.DELIVERYMAN]),
             this.updateDeliveryStatus.bind(this));
-
-        // Update delivery employee
         router.patch('/:id/employee',
             sessionMiddleware(),
             express.json(),
             roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER]),
             this.updateDeliveryEmployee.bind(this));
-
-        // Update estimated delivery time
         router.patch('/:id/estimated-delivery',
             sessionMiddleware(),
             express.json(),
-            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.DELIVERYMAN]),
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER, IEmployeeRole.DELIVERYMAN]),
             this.updateEstimatedDelivery.bind(this));
-
-        // Set actual delivery time
         router.patch('/:id/actual-delivery',
             sessionMiddleware(),
             express.json(),
-            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.DELIVERYMAN]),
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER, IEmployeeRole.DELIVERYMAN]),
             this.updateActualDelivery.bind(this));
 
         return router;

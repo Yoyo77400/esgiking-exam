@@ -15,6 +15,14 @@ export const AddressSchema = new Schema<IAddress>(
       type: String, 
       required: true 
     },
+    longitude: { 
+      type: Number, 
+      required: true 
+    },
+    latitude: { 
+      type: Number, 
+      required: true 
+    },
   },
   {
     timestamps: true,

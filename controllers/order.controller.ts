@@ -30,6 +30,7 @@ import ownerRestaurantMiddleware from '../middleware/ownerRestaurant.middleware'
  *           description: Array of product IDs in the order
  *         status:
  *           type: string
+ *           enum: [PENDING, ACCEPTED, IN_PROGRESS, DELIVERED, CANCELLED]
  *           description: Current status of the order
  *         createdAt:
  *           type: string
@@ -45,10 +46,6 @@ import ownerRestaurantMiddleware from '../middleware/ownerRestaurant.middleware'
 export class OrderController {
     private static instance?: OrderController;
 
-    private getRestaurantId(): string {
-        return "5f748650a4b1c2f8f4c9b4d4"; 
-    }
-
     static getInstance(): OrderController {
         if (!OrderController.instance) {
             OrderController.instance = new OrderController();
@@ -63,7 +60,7 @@ export class OrderController {
      *     tags: [Orders]
      *     summary: Create a new order
      *     security:
-     *       - bearerAuth: []
+     *       - sessionAuth: []
      *     requestBody:
      *       required: true
      *       content:
@@ -80,6 +77,11 @@ export class OrderController {
      *               restaurant:
      *                 type: string
      *                 description: Restaurant ID
+     *               products:
+     *                 type: array
+     *                 items:
+     *                   type: string
+     *                 description: Initial list of product IDs
      *     responses:
      *       200:
      *         description: Order created successfully
@@ -106,7 +108,7 @@ export class OrderController {
 
     /**
      * @swagger
-     * /orders/order/{id}:
+     * /orders/{id}:
      *   get:
      *     tags: [Orders]
      *     summary: Get an order by ID
@@ -166,13 +168,13 @@ export class OrderController {
 
     /**
      * @swagger
-     * /orders/user/{user_id}:
+     * /orders/user/{id}:
      *   get:
      *     tags: [Orders]
      *     summary: Get orders by user ID
      *     parameters:
      *       - in: path
-     *         name: user_id
+     *         name: id
      *         required: true
      *         schema:
      *           type: string
@@ -190,26 +192,26 @@ export class OrderController {
      *         description: Invalid user ID
      */
     async findOrdersByUserId(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.user_id) {
+        if(!req.params.id) {
             res.status(400).end();
             return;
         }
 
         const mongooseService = await MongooseService.getInstance();
         const orderService = mongooseService.orderService;
-        const orders = await orderService.findOrdersByUserId(req.params.user_id);
+        const orders = await orderService.findOrdersByUserId(req.params.id);
         res.json(orders);
     }
 
     /**
      * @swagger
-     * /orders/restaurant/{restaurant_id}:
+     * /orders/restaurant/{id}:
      *   get:
      *     tags: [Orders]
      *     summary: Get orders by restaurant ID
      *     parameters:
      *       - in: path
-     *         name: restaurant_id
+     *         name: id
      *         required: true
      *         schema:
      *           type: string
@@ -227,14 +229,14 @@ export class OrderController {
      *         description: Invalid restaurant ID
      */
     async findOrdersByRestaurantId(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.restaurant_id) {
+        if(!req.params.id) {
             res.status(400).end();
             return;
         }
 
         const mongooseService = await MongooseService.getInstance();
         const orderService = mongooseService.orderService;
-        const orders = await orderService.findOrdersByRestaurantId(req.params.restaurant_id);
+        const orders = await orderService.findOrdersByRestaurantId(req.params.id);
         res.json(orders);
     }
 
@@ -245,7 +247,7 @@ export class OrderController {
      *     tags: [Orders]
      *     summary: Delete an order
      *     security:
-     *       - bearerAuth: []
+     *       - sessionAuth: []
      *     parameters:
      *       - in: path
      *         name: id
@@ -279,21 +281,21 @@ export class OrderController {
 
     /**
      * @swagger
-     * /orders/{order_id}/product/{product_id}:
+     * /orders/{id}/product/{productId}:
      *   post:
      *     tags: [Orders]
      *     summary: Add a product to an order
      *     security:
-     *       - bearerAuth: []
+     *       - sessionAuth: []
      *     parameters:
      *       - in: path
-     *         name: order_id
+     *         name: id
      *         required: true
      *         schema:
      *           type: string
      *         description: Order ID
      *       - in: path
-     *         name: product_id
+     *         name: productId
      *         required: true
      *         schema:
      *           type: string
@@ -311,34 +313,34 @@ export class OrderController {
      *         description: Unauthorized
      */
     async addProductToOrder(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.order_id || !req.params.product_id) {
+        if(!req.params.id || !req.params.productId) {
             res.status(400).end();
             return;
         }
 
         const mongooseService = await MongooseService.getInstance();
         const orderService = mongooseService.orderService;
-        const order = await orderService.addProductToOrder(req.params.order_id, req.params.product_id);
+        const order = await orderService.addProductToOrder(req.params.id, req.params.productId);
         res.json(order);
     }
 
     /**
      * @swagger
-     * /orders/{order_id}/product/{product_id}:
+     * /orders/{id}/product/{productId}:
      *   patch:
      *     tags: [Orders]
      *     summary: Remove a product from an order
      *     security:
-     *       - bearerAuth: []
+     *       - sessionAuth: []
      *     parameters:
      *       - in: path
-     *         name: order_id
+     *         name: id
      *         required: true
      *         schema:
      *           type: string
      *         description: Order ID
      *       - in: path
-     *         name: product_id
+     *         name: productId
      *         required: true
      *         schema:
      *           type: string
@@ -356,28 +358,28 @@ export class OrderController {
      *         description: Unauthorized
      */
     async removeProductFromOrder(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.order_id || !req.params.product_id) {
+        if(!req.params.id || !req.params.productId) {
             res.status(400).end();
             return;
         }
 
         const mongooseService = await MongooseService.getInstance();
         const orderService = mongooseService.orderService;
-        const order = await orderService.removeProductFromOrder(req.params.order_id, req.params.product_id);
+        const order = await orderService.removeProductFromOrder(req.params.id, req.params.productId);
         res.json(order);
     }
 
     /**
      * @swagger
-     * /orders/{order_id}:
+     * /orders/{id}:
      *   put:
      *     tags: [Orders]
      *     summary: Update an order
      *     security:
-     *       - bearerAuth: []
+     *       - sessionAuth: []
      *     parameters:
      *       - in: path
-     *         name: order_id
+     *         name: id
      *         required: true
      *         schema:
      *           type: string
@@ -391,6 +393,7 @@ export class OrderController {
      *             properties:
      *               status:
      *                 type: string
+     *                 enum: [PENDING, ACCEPTED, IN_PROGRESS, DELIVERED, CANCELLED]
      *                 description: New order status
      *     responses:
      *       200:
@@ -405,52 +408,63 @@ export class OrderController {
      *         description: Unauthorized
      */
     async updateOrder(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.params.order_id || !req.body) {
+        if(!req.params.id || !req.body) {
             res.status(400).end();
             return;
         }
 
         const mongooseService = await MongooseService.getInstance();
         const orderService = mongooseService.orderService;
-        const order = await orderService.updateOrder(req.params.order_id, req.body);
+        const order = await orderService.updateOrder(req.params.id, req.body);
         res.json(order);
     }
 
     buildRouter(): express.Router {
         const router = express.Router();
-        router.get('/:id',
-            express.json(),
-            this.findOrderById);
-        router.get('/',
-            express.json(),
-            this.findOrders);
-        router.get('/user:id',
-            express.json(),
-            this.findOrdersByUserId);
-        router.get('/restaurant:id',
-            express.json(),
-            this.findOrdersByRestaurantId);
+        
+        // Get single order
+        router.get('/:id', this.findOrderById.bind(this));
+        
+        // Get all orders
+        router.get('/', this.findOrders.bind(this));
+        
+        // Get orders by user
+        router.get('/user/:id', this.findOrdersByUserId.bind(this));
+        
+        // Get orders by restaurant
+        router.get('/restaurant/:id', this.findOrdersByRestaurantId.bind(this));
+        
+        // Create order
         router.post('/',
-            express.json(),
             sessionMiddleware(),
-            this.createOrder);
+            express.json(),
+            this.createOrder.bind(this));
+        
+        // Update order
         router.put('/:id',
-            express.json(),
             sessionMiddleware(),
-            this.updateOrder);
-        router.post('/:id/product:id',
             express.json(),
+            this.updateOrder.bind(this));
+        
+        // Add product to order
+        router.post('/:id/product/:productId',
             sessionMiddleware(),
-            this.addProductToOrder);
-        router.patch('/:id/product:id',
             express.json(),
+            this.addProductToOrder.bind(this));
+        
+        // Remove product from order
+        router.patch('/:id/product/:productId',
             sessionMiddleware(),
-            this.removeProductFromOrder);
+            express.json(),
+            this.removeProductFromOrder.bind(this));
+        
+        // Delete order
         router.delete('/:id',
             sessionMiddleware(),
-            roleMiddleware([IEmployeeRole.ADMIN,IEmployeeRole.MANAGER]),
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER]),
             ownerRestaurantMiddleware(),
-            this.deleteOrderById);
+            this.deleteOrderById.bind(this));
+            
         return router;
     }
 }
