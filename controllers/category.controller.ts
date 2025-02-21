@@ -204,6 +204,22 @@ export class CategoryController {
         res.status(204).end();
     }
 
+    async addProductToCategory(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id || !req.body.product_id) {
+            res.status(400).end();
+            return;
+        }
+
+        const mongooseService = await MongooseService.getInstance();
+        const categoryService = mongooseService.categoryService;
+        const category = await categoryService.addProductToCategory(req.params.id, req.body.product_id);
+        if (!category) {
+            res.status(404).end();
+            return;
+        }
+        res.json(category);
+    }
+
     buildRouter(): express.Router {
         const router = express.Router();
         router.post('/',
@@ -211,6 +227,11 @@ export class CategoryController {
             sessionMiddleware(), 
             roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.createCategory);
+        router.post('/:id/product',
+            express.json(),
+            sessionMiddleware(),
+            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]),
+            this.addProductToCategory);
         router.get('/:id',
             express.json(),
             this.getCategory);

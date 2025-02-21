@@ -15,7 +15,7 @@ export const RestaurantSchema = new Schema<IRestaurant>(
     },
     telephone: { 
       type: String, 
-      required: true 
+      required: false 
     },
     address: { 
       type: Schema.Types.ObjectId, 
@@ -24,8 +24,13 @@ export const RestaurantSchema = new Schema<IRestaurant>(
     },
     description: { 
       type: String, 
-      required: true 
+      required: false 
     },
+    employees: [{ 
+      type: Schema.Types.ObjectId,
+      ref: 'employees',  // Référence à la collection 'employees'
+      required: true
+    }],
   },
   {
     timestamps: true,  // Ajoute automatiquement createdAt et updatedAt

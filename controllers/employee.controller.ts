@@ -80,7 +80,7 @@ export class EmployeeController {
      */
     async createEmployee(req: express.Request, res: express.Response): Promise<void> {
 
-        if(!req.body || typeof req.body.name !== "string" ) {
+        if(!req.body.user || !req.body.employee) {
             res.status(400).end();
             return;
         }
@@ -93,7 +93,8 @@ export class EmployeeController {
 
         if (employee.role == IEmployeeRole.DELIVERYMAN) {
             const trackerService = mongooseService.trackerService;
-            await trackerService.createTracker(employee._id);
+            const tracker = await trackerService.createTracker(employee._id);
+            await employeeService.addTrackerToEmployee(employee._id, tracker._id );
         }
         
         res.json({employee, user});

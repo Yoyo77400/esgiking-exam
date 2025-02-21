@@ -4,7 +4,7 @@ import { isValidObjectId, Model } from 'mongoose';
 import { RestaurantSchema } from './schema';
 import { Models } from './mongoose.models';
 
-export type ICreateRestaurant = Omit<IRestaurant, '_id' | 'admin' | 'createdAt' | 'updatedAt'>;
+export type ICreateRestaurant = Omit<IRestaurant, '_id' | 'admin' | 'createdAt' | 'updatedAt' | 'address' | 'employees' | 'responsable'>;
 
 export class RestaurantService {
   readonly mongooseService: MongooseService;
@@ -15,8 +15,8 @@ export class RestaurantService {
     this.restaurantModel = this.mongooseService.mongoose.model(Models.Restaurant, RestaurantSchema);
   }
 
-  async createRestaurant(restaurant: ICreateRestaurant): Promise<IRestaurant> {
-    return this.restaurantModel.create(restaurant);
+  async createRestaurant(responsableId : string, addressId: string, restaurant: ICreateRestaurant): Promise<IRestaurant> {
+    return (await this.restaurantModel.create({ responsable: responsableId, address: addressId, employees : [], ...restaurant}));
   }
 
   async findRestaurantById(id: string): Promise<IRestaurant | null> {
@@ -25,6 +25,13 @@ export class RestaurantService {
     }
 
     return this.restaurantModel.findById(id);
+  }
+
+  async addEmployeeToRestaurant(restaurant_id: string, employee_id: string): Promise<IRestaurant | null> {
+    if (!isValidObjectId(restaurant_id) || !isValidObjectId(employee_id)) {
+      return Promise.resolve(null);
+    }
+    return this.restaurantModel.findByIdAndUpdate(restaurant_id, { $push: { employees: employee_id } }, { new: true });
   }
 
   async findRestaurants(): Promise<IRestaurant[]> {

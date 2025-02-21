@@ -43,4 +43,8 @@ export class EmployeeService {
   async updateEmployeeSession(id: string, session: string): Promise<IEmployee | null> {
     return this.employeeModel.findByIdAndUpdate(id, {session}).populate('session');
   }
+
+  async addTrackerToEmployee(employee_id: string, tracker_id: string): Promise<IEmployee | null> {
+    return this.employeeModel.findByIdAndUpdate(employee_id, { $push: { tracker: tracker_id } }).populate('tracker');
+  }
 }

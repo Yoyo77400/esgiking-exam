@@ -94,6 +94,13 @@ export class CustomerController {
         res.json({customer, user});
     }
 
+    async deleteCustomerById(req: express.Request, res: express.Response): Promise<void> {
+        const mongooseService = await MongooseService.getInstance();
+        const customerService = mongooseService.customerService;
+        const user = await customerService.deleteCustomerById(req.body.id);
+        res.json({user});
+    }
+
     buildRouter(): express.Router {
         const router = express.Router();
         router.post('/', express.json(), this.createCustomer.bind(this));

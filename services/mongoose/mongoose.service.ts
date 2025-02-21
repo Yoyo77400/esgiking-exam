@@ -15,6 +15,7 @@ import {
   DeliveryService,
   CustomerService
 } from "./index";
+import { AddressService } from "./address.service";
 
 export class MongooseService {
   private static instance?: MongooseService;
@@ -34,6 +35,7 @@ export class MongooseService {
 
   public deliveryService: DeliveryService;
   public customerService: CustomerService;
+  public addressService: AddressService;
 
   private constructor(mongoose: Mongoose) {
     this.mongoose = mongoose;
@@ -52,6 +54,7 @@ export class MongooseService {
 
     this.deliveryService = new DeliveryService(this)
     this.customerService = new CustomerService(this)
+    this.addressService = new AddressService(this);
   }
 
   public static async getInstance(): Promise<MongooseService> {

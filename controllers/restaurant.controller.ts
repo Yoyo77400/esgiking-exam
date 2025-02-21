@@ -114,14 +114,23 @@ export class RestaurantController {
      *         description: Forbidden - Requires ADMIN role
      */
     async createRestaurant(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.body || typeof req.body.name !== "string" ) {
+        if(!req.body || !req.body.restaurant || !req.body.address || !req.body.employee) {
             res.status(400).end();
             return;
         }
         
         const mongooseService = await MongooseService.getInstance();
         const restaurantService = mongooseService.restaurantService;
-        const restaurant = await restaurantService.createRestaurant(req.body);
+        const addressService = mongooseService.addressService;
+        const employeeService = mongooseService.employeeService;
+        const address = await addressService.createAddress(req.body.address);
+        const employee = await employeeService.findEmployeeByEmail(req.body.employee);
+        console.log(employee, address);
+        if(!employee || !address) {
+            res.status(400).end();
+            return;
+        }
+        const restaurant = await restaurantService.createRestaurant(employee._id, address._id, req.body.restaurant);
         res.json(restaurant);
     }
 
