@@ -16,6 +16,11 @@ export const MenuSchema = new Schema<IMenu>(
       ref: 'products', 
       required: true 
     }],
+    promotion: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'promotions', 
+      required: false 
+    },
   },
   {
     timestamps: true,

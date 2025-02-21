@@ -83,7 +83,7 @@ export class PromotionController {
      *         description: Unauthorized
      */
     async createPromotion(req: express.Request, res: express.Response): Promise<void> {
-        if(!req.body || typeof req.body.name !== "string" ) {
+        if(!req.body) {
             res.status(400).end();
             return;
         }

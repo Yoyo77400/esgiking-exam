@@ -34,8 +34,15 @@ export class RestaurantService {
     return this.restaurantModel.findByIdAndUpdate(restaurant_id, { $push: { employees: employee_id } }, { new: true });
   }
 
+  async removeEmployeeFromRestaurant(restaurant_id: string, employee_id: string): Promise<IRestaurant | null> {
+    if (!isValidObjectId(restaurant_id) || !isValidObjectId(employee_id)) {
+      return Promise.resolve(null);
+    }
+    return this.restaurantModel.findByIdAndUpdate(restaurant_id, { $pull: { employees: employee_id } }, { new: true });
+  }
+
   async findRestaurants(): Promise<IRestaurant[]> {
-    return this.restaurantModel.find({});
+    return this.restaurantModel.find({}).populate('responsable').populate('address').populate('employees');
   }
 
   async updateRestaurantAdmin(

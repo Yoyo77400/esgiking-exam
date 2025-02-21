@@ -12,7 +12,7 @@ export interface IPromotion extends ITimestamp {
   type: PromotionType;
   value: number;
   restaurant: IRestaurant;
-  startAt: Date;
-  endAt: Date;
+  startAt?: Date;
+  endAt?: Date;
   responsable: IEmployee;
 }

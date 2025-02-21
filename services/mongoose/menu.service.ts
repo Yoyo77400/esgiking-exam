@@ -44,6 +44,13 @@ export class MenuService {
         return this.menuModel.findByIdAndUpdate(menu_id, { $push: { products: product_id } }).populate("products");
     }
 
+    async addPromotionToMenu(menu_id: string, promotion_id: string): Promise<IMenu | null> {
+        if(!isValidObjectId(menu_id) || !isValidObjectId(promotion_id)) {
+            return Promise.resolve(null);
+        }
+        return this.menuModel.findByIdAndUpdate(menu_id,  {promotion: promotion_id}).populate("promotion");
+    }
+
     async removeProductFromMenu(menu_id: string, product_id: string): Promise<IMenu | null> {
         if(!isValidObjectId(menu_id) || !isValidObjectId(product_id)) {
             return Promise.resolve(null);

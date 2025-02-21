@@ -118,7 +118,6 @@ export class RestaurantController {
             res.status(400).end();
             return;
         }
-        
         const mongooseService = await MongooseService.getInstance();
         const restaurantService = mongooseService.restaurantService;
         const addressService = mongooseService.addressService;
@@ -156,6 +155,21 @@ export class RestaurantController {
         const restaurantService = mongooseService.restaurantService;
         const restaurants = await restaurantService.findRestaurants();
         res.json(restaurants);
+    }
+
+    async addEmployeeToRestaurant(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.body || !req.params.id || !req.body.employee_id) {
+            res.status(400).end();
+            return;
+        }
+        const mongooseService = await MongooseService.getInstance();
+        const restaurantService = mongooseService.restaurantService;
+        const restaurant = await restaurantService.addEmployeeToRestaurant(req.params.id, req.body.employee_id);
+        if (!restaurant) {
+            res.status(404).end();
+            return;
+        }
+        res.json(restaurant);
     }
 
     /**
@@ -210,6 +224,11 @@ export class RestaurantController {
             express.json(),
             roleMiddleware([IEmployeeRole.ADMIN]), 
             this.createRestaurant.bind(this));
+        router.post('/:id/employee',
+            sessionMiddleware(),
+            express.json(),
+            roleMiddleware([IEmployeeRole.ADMIN]),
+            this.addEmployeeToRestaurant.bind(this));
         router.delete('/:id', 
             sessionMiddleware(),
             roleMiddleware([IEmployeeRole.ADMIN]), 

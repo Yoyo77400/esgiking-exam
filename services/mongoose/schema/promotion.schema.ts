@@ -20,11 +20,11 @@ export const PromotionSchema = new Schema<IPromotion>(
     },
     startAt: { 
       type: Date, 
-      required: true 
+      required: false 
     },
     endAt: { 
       type: Date, 
-      required: true 
+      required: false 
     },
     responsable: { 
       type: Schema.Types.ObjectId, 

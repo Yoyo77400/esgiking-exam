@@ -215,6 +215,22 @@ export class MenuController {
         res.json(menu);
     }
 
+    async addPromotionToMenu(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id || !req.body.promotion_id) {
+            res.status(400).end();
+            return;
+        }
+        const mongooseService = await MongooseService.getInstance();
+        const menuService = mongooseService.menuService;
+        const menu = await menuService.addPromotionToMenu(req.params.id, req.body.promotion_id);
+        if (!menu) {
+            res.status(404).end();
+            return;
+        }
+        res.json(menu);
+    }
+
+
     /**
      * @swagger
      * /menus/{id}:
@@ -272,6 +288,11 @@ export class MenuController {
             roleMiddleware([IEmployeeRole.MANAGER, IEmployeeRole.ADMIN]),
             express.json(),
             this.addProductToMenu.bind(this));
+        router.post('/:id/promotion',
+            sessionMiddleware(),
+            roleMiddleware([IEmployeeRole.MANAGER, IEmployeeRole.ADMIN]),
+            express.json(),
+            this.addPromotionToMenu.bind(this));
         router.delete('/:id',
             sessionMiddleware(),
             roleMiddleware([IEmployeeRole.MANAGER, IEmployeeRole.ADMIN]), 
