@@ -29,6 +29,15 @@ export class CategoryService {
     async findCategories(): Promise<ICategory[]> {
         return this.categoryModel.find({}).populate("products");
     }
+
+    async findProductsByCategory(id: string): Promise<ICategory | null> {
+        if(!isValidObjectId(id)) {
+            return Promise.resolve(null);
+        }
+        const mongooseService = await MongooseService.getInstance();
+        const productService = mongooseService.productService;
+        return this.categoryModel.findById(id).populate("products");
+    }
     
     async deleteCategoryById(id: string): Promise<ICategory | null> {
         if(!isValidObjectId(id)) {
@@ -37,11 +46,11 @@ export class CategoryService {
         return this.categoryModel.findByIdAndDelete(id);
     }
 
-    async addProductToCategory(category_id: string, product_id: string): Promise<ICategory | null> {
+    async addProductToCategory(category_id: string | undefined, product_id: string): Promise<ICategory | null> {
         if(!isValidObjectId(category_id) || !isValidObjectId(product_id)) {
             return Promise.resolve(null);
         }
-        return this.categoryModel.findByIdAndUpdate(category_id, { $addToSet: { products: product_id } }).populate("products");
+        return this.categoryModel.findByIdAndUpdate(category_id, { $push: {products: product_id} }, { new : true}).populate("products");
     }
 
     async removeProductFromCategory(category_id: string, product_id: string): Promise<ICategory | null> {

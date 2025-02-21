@@ -26,7 +26,11 @@ export class ProductController {
     const mongooseService = await MongooseService.getInstance();
     const productService = mongooseService.productService;
     const product = await productService.createProduct(req.body);
-    res.json(product);
+    const categoryService = mongooseService.categoryService;
+    const category = await categoryService.findCategoryById(req.body.category);
+    const updatedCategory = await categoryService.addProductToCategory( category?._id, product._id);
+
+    res.json({product, updatedCategory });
   }
 
   async getProduct(req: express.Request, res: express.Response): Promise<void> {
@@ -70,14 +74,14 @@ export class ProductController {
     router.delete(
       "/product:id",
       sessionMiddleware(),
-      roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.deleteProduct.bind(this)
     );
     router.post(
       "/",
       sessionMiddleware(),
       express.json(),
-      roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.createProduct.bind(this)
     );
     return router;

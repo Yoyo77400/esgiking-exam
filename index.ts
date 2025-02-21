@@ -49,7 +49,6 @@ async function setupAPI(): Promise<void> {
   const employeeService = mongooseService.employeeService;
   const userService = mongooseService.userService;
   const rootUser = await employeeService.findEmployeeByEmail('root@esgiking.fr');
-  console.log("root user", rootUser);
   const password = "employee";
   if (!rootUser) {
     const user = await userService.createUser({

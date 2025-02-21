@@ -36,10 +36,7 @@ export function sessionMiddleware(): express.RequestHandler {
         if (session.user) {
             req.user = session.user as IUser;
         }
-        else if (session.employee) {
-            req.employee = session.employee as IEmployee;
-        }
-
+        
         next();
     };
 }

@@ -63,14 +63,14 @@ export class PromotionController {
         router.post('/', 
             express.json(),
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER), 
+            roleMiddleware([IEmployeeRole.ADMIN,IEmployeeRole.MANAGER]), 
             this.createPromotion);
         router.get('/promotion:id',
             express.json(), 
             this.getPromotion);
         router.delete('/promotion:id', 
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER), 
+            roleMiddleware([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER]), 
             this.deletePromotion);
         return router;
     }

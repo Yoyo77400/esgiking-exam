@@ -155,7 +155,7 @@ export class OrderController {
             this.removeProductFromOrder);
         router.delete('/order:id',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER),
+            roleMiddleware([IEmployeeRole.ADMIN,IEmployeeRole.MANAGER]),
             ownerRestaurantMiddleware(),
             this.deleteOrderById);
         return router;

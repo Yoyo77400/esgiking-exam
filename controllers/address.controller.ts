@@ -70,14 +70,14 @@ export class ProductController {
     router.delete(
       "/product:id",
       sessionMiddleware(),
-      roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]),
       this.deleteProduct.bind(this)
     );
     router.post(
       "/",
       sessionMiddleware(),
       express.json(),
-      roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]),
       this.createProduct.bind(this)
     );
     return router;

@@ -98,26 +98,26 @@ export class TrackerController {
     router.get(
       "/tracker",
       sessionMiddleware(),
-      roleMiddleware(IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.getTrackerByEmployeeId.bind(this)
     );
     router.post(
       "/tracker",
       sessionMiddleware(),
       express.json(),
-      roleMiddleware(IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.createTracker.bind(this)
     );
     router.patch(
       "/tracker",
       sessionMiddleware(),
-      roleMiddleware(IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.updateTracker.bind(this)
     );
     router.delete(
       "/tracker:id",
       sessionMiddleware(),
-      roleMiddleware(IEmployeeRole.ADMIN),
+      roleMiddleware([IEmployeeRole.ADMIN]),
       this.deleteTracker.bind(this)
     );
     return router;

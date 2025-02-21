@@ -65,16 +65,16 @@ export class EmployeeController {
         router.get('/findEmployee', 
             express.json(),
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.ADMIN),
+            roleMiddleware([IEmployeeRole.ADMIN]),
             this.getEmployee.bind(this));
         router.delete('/employee:email',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.ADMIN), 
+            roleMiddleware([IEmployeeRole.ADMIN]), 
             this.deleteEmployee.bind(this));
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware(IEmployeeRole.ADMIN), 
+            roleMiddleware([IEmployeeRole.ADMIN]), 
             this.createEmployee.bind(this));
         return router;
     }

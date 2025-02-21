@@ -42,6 +42,17 @@ export class CategoryController {
         res.json(category);
     }
 
+    async getProductsByCategory(req: express.Request, res: express.Response): Promise<void> {
+        const mongooseService = await MongooseService.getInstance();
+        const categoryService = mongooseService.categoryService;
+        const category = await categoryService.findProductsByCategory(req.params.id);
+        const products = category?.products;
+        if (!products) {
+            res.status(404).end();
+        }   
+        res.json(products);
+    }
+
     async deleteCategory(req: express.Request, res: express.Response): Promise<void> {
         if(!req.params.id) {
             res.status(400).end();
@@ -63,14 +74,17 @@ export class CategoryController {
         router.post('/',
             express.json(),
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
+            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.createCategory);
         router.get('/category:id',
             express.json(),
             this.getCategory);
+        router.get('/category:id/products',
+            express.json(),
+            this.getProductsByCategory);
         router.delete('/category:id', 
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER), 
+            roleMiddleware([IEmployeeRole.ADMIN,IEmployeeRole.MANAGER]), 
             this.deleteCategory);
         return router;
     }

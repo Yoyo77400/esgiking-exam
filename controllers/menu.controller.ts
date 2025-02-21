@@ -66,11 +66,11 @@ export class MenuController {
         router.post('/', 
             sessionMiddleware(),
             express.json(), 
-            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
+            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.createMenu.bind(this));
         router.delete('/menu:id',
             sessionMiddleware(),
-            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
+            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.deleteMenu.bind(this));
         return router;
     }

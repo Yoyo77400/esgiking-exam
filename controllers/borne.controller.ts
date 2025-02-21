@@ -63,14 +63,14 @@ export class BorneController {
         router.post('/',
             express.json(),
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.MANAGER || IEmployeeRole.ADMIN), 
+            roleMiddleware(([IEmployeeRole.ADMIN, IEmployeeRole.MANAGER])), 
             this.createBorne);
         router.get('/borne:id',
             express.json(),
             this.getBorne);
         router.delete('/borne:id', 
             sessionMiddleware(), 
-            roleMiddleware(IEmployeeRole.ADMIN || IEmployeeRole.MANAGER), 
+            roleMiddleware([IEmployeeRole.ADMIN || IEmployeeRole.MANAGER]), 
             this.deleteBorne);
         return router;
     }
