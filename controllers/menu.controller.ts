@@ -42,6 +42,29 @@ export class MenuController {
         res.json(menu);
     }
 
+    async getMenus(req: express.Request, res: express.Response): Promise<void> {
+        const mongooseService = await MongooseService.getInstance();
+        const menuService = mongooseService.menuService;
+        const menus = await menuService.findMenus();
+        res.json(menus);
+    }
+
+    async addProductToMenu(req: express.Request, res: express.Response): Promise<void> {
+        if(!req.params.id || !req.body.product_id) {
+            res.status(400).end();
+            return;
+        }
+        const mongooseService = await MongooseService.getInstance();
+        const menuService = mongooseService.menuService;
+        const menu = await menuService.addProductToMenu(req.params.id, req.body.product_id);
+        if (!menu) {
+            res.status(404).end();
+            return;
+        }
+        res.json(menu);
+    }
+
+
     async deleteMenu(req: express.Request, res: express.Response): Promise<void> {
         if(!req.params.id) {
             res.status(400).end();
@@ -63,11 +86,17 @@ export class MenuController {
         router.get('/menu:id', 
             express.json(), 
             this.getMenu.bind(this));
+        router.get('/',
+            express.json(),
+            this.getMenus.bind(this));
         router.post('/', 
-            sessionMiddleware(),
             express.json(), 
-            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 
             this.createMenu.bind(this));
+        router.post('/menu:id/product',
+            sessionMiddleware(),
+            roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]),
+            express.json(),
+            this.addProductToMenu.bind(this));
         router.delete('/menu:id',
             sessionMiddleware(),
             roleMiddleware([IEmployeeRole.MANAGER,IEmployeeRole.ADMIN]), 

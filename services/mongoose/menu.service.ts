@@ -4,7 +4,7 @@ import { Model, isValidObjectId } from "mongoose";
 import { MenuSchema } from "./schema";
 import { Models } from "./mongoose.models";
 
-export  type ICreateMenu = Omit<IMenu, "_id" | "createdAt" | "updatedAt">;
+export  type ICreateMenu = Omit<IMenu, "_id" | "createdAt" | "updatedAt | products">;
 
 export class MenuService {
     readonly mongooseService: MongooseService;
@@ -16,7 +16,7 @@ export class MenuService {
     }
 
     async createMenu(menu: ICreateMenu): Promise<IMenu> {
-        return this.menuModel.create(menu);
+        return this.menuModel.create({...menu, products: []});
     }
 
     async findMenuById(id: string): Promise<IMenu | null> {
@@ -41,7 +41,7 @@ export class MenuService {
         if(!isValidObjectId(menu_id) || !isValidObjectId(product_id)) {
             return Promise.resolve(null);
         }
-        return this.menuModel.findByIdAndUpdate(menu_id, { $addToSet: { products: product_id } }).populate("products");
+        return this.menuModel.findByIdAndUpdate(menu_id, { $push: { products: product_id } }).populate("products");
     }
 
     async removeProductFromMenu(menu_id: string, product_id: string): Promise<IMenu | null> {
