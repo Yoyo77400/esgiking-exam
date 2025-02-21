@@ -101,7 +101,7 @@ export class EmployeeController {
 
     /**
      * @swagger
-     * /employees/findEmployee:
+     * /employees/:
      *   get:
      *     tags:
      *       - Employees

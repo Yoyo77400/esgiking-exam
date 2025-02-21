@@ -5,4 +5,6 @@ export interface IAddress extends ITimestamp {
   street: string;
   city: string;
   postalCode: string;
+  longitude: number;
+  latitude: number;
 }

@@ -1,4 +1,4 @@
-import { ITimestamp, IOrder, IEmployee, ICustomer, IChat, IRestaurant } from './index';
+import { ITimestamp, IRestaurant } from './index';
 
 export enum BorneStatus {
   DISABLE = 'disable',

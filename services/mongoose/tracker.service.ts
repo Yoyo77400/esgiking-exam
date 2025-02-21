@@ -56,6 +56,39 @@ export class TrackerService {
       return Promise.resolve(null);
     }
 
-    return this.trackerModel.findOne({ employee: employeeId });
+    return this.trackerModel.findOne({ employee_id: employeeId });
+  }
+
+  async findNearestTracker(
+    restaurantLocation: { latitude: number; longitude: number }
+  ): Promise<ITracker | null> {
+    const trackers = await this.trackerModel.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [restaurantLocation.longitude, restaurantLocation.latitude]
+          },
+          distanceField: "distance",
+          spherical: true
+        }
+      },
+      {
+        $lookup: {
+          from: "employees",
+          localField: "employee_id",
+          foreignField: "_id",
+          as: "employee"
+        }
+      },
+      {
+        $unwind: "$employee"
+      },
+      {
+        $limit: 1
+      }
+    ]);
+
+    return trackers.length > 0 ? trackers[0] : null;
   }
 }
