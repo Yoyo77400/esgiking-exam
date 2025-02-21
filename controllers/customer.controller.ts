@@ -13,6 +13,78 @@ export class CustomerController {
         return CustomerController.instance;
     }
 
+    /**
+     * @swagger
+     * /customers:
+     *   post:
+     *     tags:
+     *       - Customers
+     *     summary: Create a new customer
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - user
+     *               - customer
+     *             properties:
+     *               user:
+     *                 type: object
+     *                 required:
+     *                   - email
+     *                   - password
+     *                 properties:
+     *                   email:
+     *                     type: string
+     *                     format: email
+     *                     example: "customer@example.com"
+     *                   password:
+     *                     type: string
+     *                     format: password
+     *                     example: "password123"
+     *               customer:
+     *                 type: object
+     *                 required:
+     *                   - name
+     *                 properties:
+     *                   name:
+     *                     type: string
+     *                     example: "John Doe"
+     *                   address:
+     *                     type: string
+     *                     example: "123 Main St"
+     *                   phone:
+     *                     type: string
+     *                     example: "+33123456789"
+     *     responses:
+     *       200:
+     *         description: Customer created successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 customer:
+     *                   type: object
+     *                   properties:
+     *                     _id:
+     *                       type: string
+     *                     name:
+     *                       type: string
+     *                     user_id:
+     *                       type: string
+     *                 user:
+     *                   type: object
+     *                   properties:
+     *                     _id:
+     *                       type: string
+     *                     email:
+     *                       type: string
+     *       400:
+     *         description: Bad Request - Invalid input
+     */
     async createCustomer(req: express.Request, res: express.Response): Promise<void> {
         const mongooseService = await MongooseService.getInstance();
         const customerService = mongooseService.customerService;

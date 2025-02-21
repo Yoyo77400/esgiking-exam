@@ -1,8 +1,9 @@
-import { ITimestamp, IEmployee } from './index';
+import { ITimestamp } from './index';
+import { Types } from 'mongoose';
 
 export interface ITracker extends ITimestamp {
   _id: string;
   longitude: number;
   latitude: number;
-  employee: IEmployee;
+  employee_id: Types.ObjectId;
 }

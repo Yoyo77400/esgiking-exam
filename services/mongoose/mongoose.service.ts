@@ -11,7 +11,7 @@ import {
   TrackerService,
   OrderService,
   BorneService,
-
+  ChatService,
   DeliveryService,
   CustomerService
 } from "./index";
@@ -29,6 +29,7 @@ export class MongooseService {
   public promotionService: PromotionService;
   public trackerService: TrackerService;
   public orderService: OrderService;
+  public chatService: ChatService;
   public borneService: BorneService;
 
   public deliveryService: DeliveryService;
@@ -46,6 +47,7 @@ export class MongooseService {
     this.promotionService = new PromotionService(this);
     this.trackerService = new TrackerService(this);
     this.orderService = new OrderService(this);
+    this.chatService = new ChatService(this);
     this.borneService = new BorneService(this);
 
     this.deliveryService = new DeliveryService(this)
