@@ -22,8 +22,8 @@ export class TrackerService {
     );
   }
 
-  async createTracker(tracker: ICreateTracker): Promise<ITracker> {
-    return this.trackerModel.create(tracker);
+  async createTracker(employee_id: string): Promise<ITracker> {
+    return this.trackerModel.create({ employee_id });
   }
 
   async updateTracker(tracker: IUpdateTracker): Promise<ITracker | null> {

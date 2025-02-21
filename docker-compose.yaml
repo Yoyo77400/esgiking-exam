@@ -10,8 +10,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PWD}
     ports:
       - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
+    networks:
+      - app-network
 
   express:
     image: mongo-express:latest
@@ -29,7 +29,11 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PWD}
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: admin
-  
+
+networks:
+  app-network:
+    driver: bridge
+
   # api:
   #   build: .
   #   restart: always

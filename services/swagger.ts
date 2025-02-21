@@ -1,39 +1,37 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import { join } from 'path';
 
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'API Documentation',
+      title: 'ESGIKing API Documentation',
       version: '1.0.0',
-      description: 'API Information',
-      contact: {
-        name: 'Your Name',
-      },
-      servers: ['http://localhost:3001'],
+      description: 'Documentation for the ESGIKing delivery application API',
     },
-    paths: {
-      '/': {
-        get: {
-          summary: 'Returns a greeting message',
-          responses: {
-            '200': {
-              description: 'A successful response',
-              content: {
-                'text/plain': {
-                  schema: {
-                    type: 'string',
-                    example: 'Hello World!',
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Development server'
+      }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      }
     },
+    security: [{
+      bearerAuth: []
+    }]
   },
-  apis: ['./**/*.ts'], // Path to the API docs
+  apis: [
+    './controllers/*.ts',
+    './dist/controllers/*.js',
+  ]
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

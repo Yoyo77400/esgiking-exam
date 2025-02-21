@@ -11,12 +11,12 @@ import {
   RestaurantController, 
   CategoryController, 
   OrderController,
-  DeliveyController,
+  DeliveryController,
   EmployeeController,
   TrackerController,
   PromotionController,
-  CustomerController
-
+  CustomerController,
+  ChatController
 } from './controllers';
 import { SecurityUtils } from './utils/security.utils';
 
@@ -32,11 +32,12 @@ function launchAPI() {
   app.use('/restaurants', RestaurantController.getInstance().buildRouter());
   app.use('/categories', CategoryController.getInstance().buildRouter());
   app.use('/orders', OrderController.getInstance().buildRouter());
-  app.use('/deliveries', DeliveyController.getInstance().buildRouter());
+  app.use('/deliveries', DeliveryController.getInstance().buildRouter());
   app.use('/employees', EmployeeController.getInstance().buildRouter());
   app.use('/trackers', TrackerController.getInstance().buildRouter());
   app.use('/promotions', PromotionController.getInstance().buildRouter());
   app.use('/customers', CustomerController.getInstance().buildRouter());
+  app.use('/chat', ChatController.getInstance().buildRouter());
 
   
   app.listen(process.env.PORT || 3000, () => {
